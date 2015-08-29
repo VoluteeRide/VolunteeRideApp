@@ -1,0 +1,12 @@
+
+*.iml
+
+Volunteeride/*/.idea/*
+
+Volunteeride/model/.idea/.name
+
+Volunteeride/model/.idea/compiler.xml
+
+Volunteeride/domain/.idea/misc.xml
+
+Volunteeride/domain/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
