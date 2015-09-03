@@ -1,7 +1,6 @@
 package com.volunteeride.service.impl
 
 import com.volunteeride.model.Center
-import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
 import spock.lang.Shared
 import spock.lang.Specification
@@ -9,13 +8,13 @@ import spock.lang.Specification
 /**
  * Created by ayazlakdawala on 9/1/15.
  */
-class VolunteeRideServiceImplTest extends Specification {
+class VolunteeRideServiceImplTest extends Specification  {
 
     def ride = new Ride();
     def volunteerideService = new VolunteeRideServiceImpl();
 
     @Shared
-    def center = new Center();
+     center = new Center();
 
     void setup() {
 
