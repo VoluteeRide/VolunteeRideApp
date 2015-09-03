@@ -3,13 +3,16 @@
 
 Volunteeride/*/.idea/*
 
+Volunteeride/model/.idea/.name
+
+Volunteeride/model/.idea/compiler.xml
+
+Volunteeride/domain/.idea/misc.xml
+
+Volunteeride/domain/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
+
 *.class
 
-Volunteeride/*/.gradle/2.2.1/*
-Volunteeride/*/.gradle/2.2/*
-
-Volunteeride/*/build/*
 *.bin
-*.lock
-Volunteeride/service/.gradle/2.2/taskArtifacts/taskArtifacts.bin
-Volunteeride/service/.gradle/2.2/taskArtifacts/fileSnapshots.bin
+
+Volunteeride/*/.gradle
