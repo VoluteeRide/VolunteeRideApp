@@ -5,11 +5,8 @@ Volunteeride/*/.idea/*
 
 *.class
 
-Volunteeride/*/.gradle/2.2.1/*
-Volunteeride/*/.gradle/2.2/*
+Volunteeride/*/.gradle/*
 
 Volunteeride/*/build/*
 *.bin
 *.lock
-Volunteeride/service/.gradle/2.2/taskArtifacts/taskArtifacts.bin
-Volunteeride/service/.gradle/2.2/taskArtifacts/fileSnapshots.bin
