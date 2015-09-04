@@ -1,12 +1,12 @@
-package com.volunteeride.service.impl;
+package com.volunteeride.service.impl.ride;
 
 import com.volunteeride.model.Ride;
-import com.volunteeride.service.VolunteeRideService;
+import com.volunteeride.service.ride.RideService;
 
 /**
  * Created by ayazlakdawala on 8/31/15.
  */
-public class VolunteeRideServiceImpl implements VolunteeRideService {
+public class RideServiceImpl implements RideService {
 
     @Override
     public Ride requestRide(Ride ride) {
