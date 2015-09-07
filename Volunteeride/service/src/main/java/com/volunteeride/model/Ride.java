@@ -1,5 +1,7 @@
 package com.volunteeride.model;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 /**
@@ -7,63 +9,54 @@ import java.util.List;
  *
  * Created by ayazlakdawala on 8/31/15.
  */
-public class Ride {
+public class Ride extends BaseModelObject {
 
-    private int rideId;
-    private int volunteerId;
-    private List<Integer> rideSeekerIds;
-    private Location sourceLoc;
-    private Location destinationLoc;
-    private String pickupTime;
+    private VolunteerideUser volunteer;
+    private List<VolunteerideUser> rideSeekers;
+    private Location pickupLoc;
+    private Location dropoffLoc;
+    private DateTime pickupTime;
     private RideStatusEnum status;
     private Center center;
     private int totalNoOfRiders;
 
-    public int getRideId() {
-        return rideId;
+    public VolunteerideUser getVolunteer() {
+        return volunteer;
     }
 
-    public void setRideId(int rideId) {
-        this.rideId = rideId;
+    public void setVolunteer(VolunteerideUser volunteer) {
+        this.volunteer = volunteer;
     }
 
-    public int getVolunteerId() {
-        return volunteerId;
+    public List<VolunteerideUser> getRideSeekers() {
+        return rideSeekers;
     }
 
-    public void setVolunteerId(int volunteerId) {
-        this.volunteerId = volunteerId;
+    public void setRideSeekers(List<VolunteerideUser> rideSeekers) {
+        this.rideSeekers = rideSeekers;
     }
 
-    public List<Integer> getRideSeekerIds() {
-        return rideSeekerIds;
+    public Location getPickupLoc() {
+        return pickupLoc;
     }
 
-    public void setRideSeekerIds(List<Integer> rideSeekerIds) {
-        this.rideSeekerIds = rideSeekerIds;
+    public void setPickupLoc(Location pickupLoc) {
+        this.pickupLoc = pickupLoc;
     }
 
-    public Location getSourceLoc() {
-        return sourceLoc;
+    public Location getDropoffLoc() {
+        return dropoffLoc;
     }
 
-    public void setSourceLoc(Location sourceLoc) {
-        this.sourceLoc = sourceLoc;
+    public void setDropoffLoc(Location dropoffLoc) {
+        this.dropoffLoc = dropoffLoc;
     }
 
-    public Location getDestinationLoc() {
-        return destinationLoc;
-    }
-
-    public void setDestinationLoc(Location destinationLoc) {
-        this.destinationLoc = destinationLoc;
-    }
-
-    public String getPickupTime() {
+    public DateTime getPickupTime() {
         return pickupTime;
     }
 
-    public void setPickupTime(String pickupTime) {
+    public void setPickupTime(DateTime pickupTime) {
         this.pickupTime = pickupTime;
     }
 

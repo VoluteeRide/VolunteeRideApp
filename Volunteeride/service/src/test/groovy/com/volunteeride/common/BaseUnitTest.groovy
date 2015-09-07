@@ -1,6 +1,7 @@
 package com.volunteeride.common
 
 import com.volunteeride.exception.BaseVolunteerideRuntimeException
+import com.volunteeride.exception.ValidationException
 import spock.lang.Specification
 
 /**
@@ -15,6 +16,15 @@ class BaseUnitTest extends Specification {
         assert vExcp.errorCode == expectedErrCode
         assert vExcp.customCause == expectedCustomCause
         assert vExcp.resolution == expectedResolution
+    }
+
+    void testForNull(ValidationException vExcp, String nullObjName){
+        StringBuilder expectedMsg = new StringBuilder("Required Data is missing : ");
+        expectedMsg.append(nullObjName);
+        def expectedErrCode = "VR1-01"
+        def expectedCustomCause = null
+        def expectedResolution = "Please provide the required data."
+        this.assertExpectedException(vExcp, expectedMsg.toString(), expectedCustomCause, expectedResolution, expectedErrCode)
     }
 
 

@@ -7,7 +7,7 @@ import java.util.List;
  *
  * Created by ayazlakdawala on 9/1/15.
  */
-public class Center {
+public class Center extends BaseModelObject {
 
     private Location location;
     private List<Location> pickUpLocations;

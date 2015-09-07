@@ -9,8 +9,7 @@ public class ValidationExceptionUtil {
 
     public static void validateForNull(Object objToValidate, String arg){
 
-        StringBuilder excpMsg = new StringBuilder();
-        excpMsg.append("Required Data is missing : ");
+        StringBuilder excpMsg = new StringBuilder("Required Data is missing : ");
         excpMsg.append(arg);
 
         String excpResolution = "Please provide the required data.";

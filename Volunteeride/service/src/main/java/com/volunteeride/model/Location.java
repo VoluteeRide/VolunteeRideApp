@@ -5,23 +5,14 @@ package com.volunteeride.model;
  *
  * Created by ayazlakdawala on 8/31/15.
  */
-public class Location {
+public class Location extends BaseModelObject {
 
-    private int locationId;
     private String city;
     private String state;
     private String streetAddress;
     private String zipcode;
     private int houseNumber;
     private String locationName;
-
-    public int getLocationId() {
-        return locationId;
-    }
-
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
-    }
 
     public String getCity() {
         return city;
