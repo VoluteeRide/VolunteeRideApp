@@ -12,6 +12,8 @@ public class BaseVolunteerideRuntimeException extends RuntimeException {
 
     protected String resolution;
 
+    protected String customCause;
+
     /**
      * Constructs a new runtime exception with {@code null} as its
      * detail message.  The cause is not initialized, and may subsequently be
@@ -64,12 +66,14 @@ public class BaseVolunteerideRuntimeException extends RuntimeException {
      *                unknown.)
      * @param errorCode represents errorcode related to exception
      * @param resolution represents possible solution for the exception.
+     * @param customCause represents custom configured cause of the exception.
      * @since 1.4
      */
-    public BaseVolunteerideRuntimeException(String message, Throwable cause, String errorCode, String resolution) {
+    public BaseVolunteerideRuntimeException(String message, Throwable cause, String customCause, String resolution, String errorCode) {
         super(message, cause);
         this.errorCode = errorCode;
         this.resolution = resolution;
+        this.customCause = customCause;
     }
 
     /**
@@ -81,11 +85,13 @@ public class BaseVolunteerideRuntimeException extends RuntimeException {
      *                later retrieval by the {@link #getMessage()} method.
      * @param errorCode represents errorcode related to exception
      * @param resolution represents possible solution for the exception.
+     * @param customCause represents custom configured cause of the exception.
      */
-    public BaseVolunteerideRuntimeException(String message, String errorCode, String resolution) {
+    public BaseVolunteerideRuntimeException(String message, String customCause, String resolution, String errorCode) {
         super(message);
         this.errorCode = errorCode;
         this.resolution = resolution;
+        this.customCause = customCause;
     }
 
     public String getErrorCode() {
@@ -94,5 +100,9 @@ public class BaseVolunteerideRuntimeException extends RuntimeException {
 
     public String getResolution() {
         return resolution;
+    }
+
+    public String getCustomCause() {
+        return customCause;
     }
 }
