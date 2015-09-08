@@ -18,7 +18,7 @@ class BaseUnitTest extends Specification {
         assert vExcp.resolution == expectedResolution
     }
 
-    void testForNull(ValidationException vExcp, String nullObjName){
+    void testForEmptyOrNull(ValidationException vExcp, String nullObjName){
         StringBuilder expectedMsg = new StringBuilder("Required Data is missing : ");
         expectedMsg.append(nullObjName);
         def expectedErrCode = "VR1-01"
