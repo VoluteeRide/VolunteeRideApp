@@ -1,6 +1,20 @@
 group 'volunteeride'
 version '1.0-SNAPSHOT'
 
+// added "bill of materials" configuration for spring framework and spring data modules.
+// refer to https://github.com/spring-projects/spring-data-examples/tree/master/bom for more details
+buildscript {
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE'
+    }
+}
+
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
@@ -11,10 +25,23 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springVersion = '4.2.1.RELEASE'
+    springDataVersion = 'Gosling-RELEASE'
+}
+
+// configured bom for spring framwork and spring data
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+        mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
+    }
+}
+
 dependencies {
 
     //dependency for spring data mongo db
-    compile 'org.springframework.data:spring-data-mongodb:1.8.0.RELEASE'
+    compile 'org.springframework.data:spring-data-mongodb'
 
     //dependency for collections util
     compile 'org.apache.commons:commons-collections4:4.0'
