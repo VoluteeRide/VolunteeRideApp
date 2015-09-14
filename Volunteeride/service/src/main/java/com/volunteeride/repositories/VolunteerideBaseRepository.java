@@ -1,4 +1,4 @@
-package com.volunteeride.repositories.mongo;
+package com.volunteeride.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.NoRepositoryBean;

@@ -1,4 +1,4 @@
-package com.volunteeride.springconfig.mongo;
+package com.volunteeride.springconfig;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
