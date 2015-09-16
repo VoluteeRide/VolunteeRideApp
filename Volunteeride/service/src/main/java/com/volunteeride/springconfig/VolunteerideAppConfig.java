@@ -6,7 +6,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -41,7 +44,7 @@ public class VolunteerideAppConfig extends AbstractMongoConfiguration {
      * @throws Exception
      */
     @Override
-    public Mongo mongo() throws Exception {
+    public MongoClient mongo() throws Exception {
         return new MongoClient();
     }
 
@@ -58,4 +61,26 @@ public class VolunteerideAppConfig extends AbstractMongoConfiguration {
     public String getMappingBasePackage() {
         return "com.volunteeride.model";
     }
+
+
+    /**
+     *
+     * This Bean provides a mongo template bean that can be used to communicate and fire queries to mongo db database.
+     *
+     * @return
+     * @throws Exception
+     */
+    public @Bean MongoTemplate mongoTemplate() throws Exception {
+        return new MongoTemplate(mongoDbFactory());
+    }
+
+    public MongoDbFactory mongoDbFactory() throws Exception {
+        //Optionally use database user credentials
+        //UserCredentials userCredentials = new UserCredentials("joe", "secret");
+        //return new SimpleMongoDbFactory(new Mongo(), "database", userCredentials);
+
+        return new SimpleMongoDbFactory(mongo(), getDatabaseName());
+
+    }
+
 }
