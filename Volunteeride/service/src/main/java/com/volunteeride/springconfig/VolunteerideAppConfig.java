@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.data.mongodb.core.WriteResultChecking;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -71,7 +72,12 @@ public class VolunteerideAppConfig extends AbstractMongoConfiguration {
      * @throws Exception
      */
     public @Bean MongoTemplate mongoTemplate() throws Exception {
-        return new MongoTemplate(mongoDbFactory());
+        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+
+        // Throw an exception if write result consists of an error.
+        mongoTemplate.setWriteResultChecking(WriteResultChecking.EXCEPTION);
+
+        return mongoTemplate;
     }
 
     public MongoDbFactory mongoDbFactory() throws Exception {
