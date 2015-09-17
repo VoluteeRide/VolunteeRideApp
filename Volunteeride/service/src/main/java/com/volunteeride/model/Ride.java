@@ -1,6 +1,7 @@
 package com.volunteeride.model;
 
 import org.joda.time.DateTime;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  *
  * Created by ayazlakdawala on 8/31/15.
  */
+@Document
 public class Ride extends BaseModelObject {
 
     private VolunteerideUser volunteer;

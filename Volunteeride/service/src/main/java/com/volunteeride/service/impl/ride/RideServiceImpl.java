@@ -26,6 +26,6 @@ public class RideServiceImpl implements RideService {
 
         ride.setStatus(RideStatusEnum.REQUESTED);
 
-        return rideDAO.saveRide(ride);
+        return (Ride) rideDAO.save(ride);
     }
 }
