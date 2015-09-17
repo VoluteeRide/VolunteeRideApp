@@ -1,6 +1,7 @@
 package com.volunteeride.model;
 
 import org.joda.time.DateTime;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 
@@ -11,11 +12,13 @@ import org.springframework.data.annotation.Version;
 public class BaseModelObject {
 
     @Id
-    private String id;
-    private DateTime createdDatetime;
+    protected String id;
+
+    @CreatedDate
+    protected DateTime createdDatetime;
 
     @Version
-    private Long version;
+    protected Long version;
 
     public String getId() {
         return id;
