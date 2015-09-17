@@ -40,8 +40,14 @@ dependencyManagement {
 
 dependencies {
 
+    //dependency for adding JSR-330 compliant @Inject and @Named and JSR-250 compliant @Resource support
+    compile 'javax.inject:javax.inject:1'
+
     //dependency for spring data mongo db
     compile 'org.springframework.data:spring-data-mongodb'
+
+    // dependency for spring-test framework
+    testCompile 'org.springframework:spring-test'
 
     //dependency for collections util
     compile 'org.apache.commons:commons-collections4:4.0'
