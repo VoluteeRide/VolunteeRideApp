@@ -4,8 +4,9 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,18 +15,25 @@ import org.springframework.data.mongodb.core.WriteResultChecking;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import javax.inject.Inject;
+
 /**
- * This class represents the spring configuration for the Volunteeride app supporting Mongo DB data store.
+ * This class represents the spring configuration for the Spring-Mongo DB data store.
  *
- * @author ayazlakdawala
- * @version Titanium R9.7
- * @since 9/11/2015
+ * Created by ayazlakdawala on 9/11/2015
  */
 
 @Configuration
-@EnableMongoRepositories("com.volunteeride.repositories.mongo")
-@ComponentScan(basePackages = "com.volunteeride")
-public class VolunteerideAppConfig extends AbstractMongoConfiguration {
+@EnableMongoRepositories("com.volunteeride.dao")
+@PropertySource("classpath:mongodbConfig.properties")
+public class MongoDBConfig extends AbstractMongoConfiguration {
+
+
+    /**
+     * Place holder to read properties from the property files configured.
+     */
+    @Inject
+    private Environment env;
 
     /**
      * Return the name of the database to connect to.
@@ -34,7 +42,7 @@ public class VolunteerideAppConfig extends AbstractMongoConfiguration {
      */
     @Override
     protected String getDatabaseName() {
-        return "volunteeride";
+        return env.getProperty("mongodb.db");
     }
 
     /**
@@ -62,7 +70,6 @@ public class VolunteerideAppConfig extends AbstractMongoConfiguration {
     public String getMappingBasePackage() {
         return "com.volunteeride.model";
     }
-
 
     /**
      *
