@@ -18,11 +18,11 @@ public class RideServiceImpl implements RideService {
 
         //validate required data
         ValidationExceptionUtil.validateForEmptyOrNull(ride, "Ride");
-        ValidationExceptionUtil.validateForEmptyOrNull(ride.getCenter(), "Center");
+        ValidationExceptionUtil.validateForEmptyOrNull(ride.getCenterId(), "Center");
         ValidationExceptionUtil.validateForEmptyOrNull(ride.getPickupLoc(), "Ride Pick up Location");
         ValidationExceptionUtil.validateForEmptyOrNull(ride.getDropoffLoc(), "Ride Drop off Location");
         ValidationExceptionUtil.validateForEmptyOrNull(ride.getPickupTime(), "Ride Pick Up Time");
-        ValidationExceptionUtil.validateForEmptyOrNull(ride.getRideSeekers(), "Ride Seekers");
+        ValidationExceptionUtil.validateForEmptyOrNull(ride.getRideSeekerIds(), "Ride Seekers");
 
         ride.setStatus(RideStatusEnum.REQUESTED);
 

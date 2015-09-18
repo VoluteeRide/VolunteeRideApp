@@ -1,5 +1,7 @@
 package com.volunteeride.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  *
  * Created by ayazlakdawala on 9/1/15.
  */
+@Document
 public class Center extends BaseModelObject {
 
     private Location location;

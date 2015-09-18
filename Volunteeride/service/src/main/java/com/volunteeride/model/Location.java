@@ -5,7 +5,7 @@ package com.volunteeride.model;
  *
  * Created by ayazlakdawala on 8/31/15.
  */
-public class Location extends BaseModelObject {
+public class Location {
 
     private String city;
     private String state;

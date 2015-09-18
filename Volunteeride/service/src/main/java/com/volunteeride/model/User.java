@@ -1,11 +1,16 @@
 package com.volunteeride.model;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+
 /**
  * This class represents User Model Object
  *
  * Created by ayazlakdawala on 9/7/15.
  */
-//TODO Ayaz Move this object to the common User Service Project once it is created.
+@Document
 public class User extends BaseModelObject{
 
     private String username;
@@ -14,6 +19,8 @@ public class User extends BaseModelObject{
     private String lastName;
     private String email;
     private String phone;
+    private List<Vehicle> ownedVehicles;
+    private ObjectId centerId;
 
     public String getUsername() {
         return username;
@@ -61,5 +68,21 @@ public class User extends BaseModelObject{
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<Vehicle> getOwnedVehicles() {
+        return ownedVehicles;
+    }
+
+    public void setOwnedVehicles(List<Vehicle> ownedVehicles) {
+        this.ownedVehicles = ownedVehicles;
+    }
+
+    public ObjectId getCenterId() {
+        return centerId;
+    }
+
+    public void setCenterId(ObjectId centerId) {
+        this.centerId = centerId;
     }
 }

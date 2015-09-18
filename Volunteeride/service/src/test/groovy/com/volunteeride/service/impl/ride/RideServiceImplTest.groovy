@@ -6,7 +6,7 @@ import com.volunteeride.exception.ValidationException
 import com.volunteeride.model.Center
 import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
-import com.volunteeride.model.VolunteerideUser
+import org.bson.types.ObjectId
 import org.joda.time.DateTime
 
 /**
@@ -26,13 +26,13 @@ class RideServiceImplTest extends BaseUnitTest  {
         rideService.rideDAO = mockedRideDAO
 
         ride = new Ride();
-        ride.center = new Center()
+        ride.centerId = new ObjectId()
         ride.pickupLoc = new Location()
         ride.dropoffLoc = new Location()
         ride.pickupTime = new DateTime()
-        def rideseekers = new ArrayList<VolunteerideUser>()
-        rideseekers << new VolunteerideUser()
-        ride.rideSeekers = rideseekers
+        def rideseekers = new ArrayList<ObjectId>()
+        rideseekers << new ObjectId();
+        ride.rideSeekerIds = rideseekers
     }
 
     void cleanup() {
@@ -55,7 +55,7 @@ class RideServiceImplTest extends BaseUnitTest  {
     def "validate Center object for Request Ride api "(){
 
         setup: "set up ride object for test"
-        ride.center = null;
+        ride.centerId = null;
 
         when: "function under test is executed"
         rideService.requestRide(ride);
@@ -107,7 +107,7 @@ class RideServiceImplTest extends BaseUnitTest  {
     def "validate ride seekers for null for Request Ride api "(){
 
         setup: "set up ride object for test"
-        ride.rideSeekers = null;
+        ride.rideSeekerIds = null;
 
         when: "function under test is executed"
         rideService.requestRide(ride);
@@ -120,7 +120,7 @@ class RideServiceImplTest extends BaseUnitTest  {
     def "validate ride seekers for empty list for Request Ride api "(){
 
         setup: "set up ride object for test"
-        ride.rideSeekers = new ArrayList<VolunteerideUser>();
+        ride.rideSeekerIds = new ArrayList<ObjectId>();
 
         when: "function under test is executed"
         rideService.requestRide(ride);
@@ -133,13 +133,13 @@ class RideServiceImplTest extends BaseUnitTest  {
     def "test request ride api"(){
 
         setup : "set up expected ride object"
-        ride.id = 1l
+        ride.id = String.valueOf(new ObjectId())
 
         when: "function under test is executed"
         def  actualRide = rideService.requestRide(ride);
 
         then:
-        1 * mockedRideDAO.saveRide(_ as Ride) >> ride
+        1 * mockedRideDAO.save(_ as Ride) >> ride
         actualRide.id == ride.id
         actualRide.status == ride.status
     }

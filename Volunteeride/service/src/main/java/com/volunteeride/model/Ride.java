@@ -1,5 +1,6 @@
 package com.volunteeride.model;
 
+import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,29 +14,29 @@ import java.util.List;
 @Document
 public class Ride extends BaseModelObject {
 
-    private VolunteerideUser volunteer;
-    private List<VolunteerideUser> rideSeekers;
+    private ObjectId volunteerId;
+    private List<ObjectId> rideSeekerIds;
     private Location pickupLoc;
     private Location dropoffLoc;
     private DateTime pickupTime;
     private RideStatusEnum status;
-    private Center center;
+    private ObjectId centerId;
     private int totalNoOfRiders;
 
-    public VolunteerideUser getVolunteer() {
-        return volunteer;
+    public ObjectId getVolunteerId() {
+        return volunteerId;
     }
 
-    public void setVolunteer(VolunteerideUser volunteer) {
-        this.volunteer = volunteer;
+    public void setVolunteerId(ObjectId volunteerId) {
+        this.volunteerId = volunteerId;
     }
 
-    public List<VolunteerideUser> getRideSeekers() {
-        return rideSeekers;
+    public List<ObjectId> getRideSeekerIds() {
+        return rideSeekerIds;
     }
 
-    public void setRideSeekers(List<VolunteerideUser> rideSeekers) {
-        this.rideSeekers = rideSeekers;
+    public void setRideSeekerIds(List<ObjectId> rideSeekerIds) {
+        this.rideSeekerIds = rideSeekerIds;
     }
 
     public Location getPickupLoc() {
@@ -70,12 +71,12 @@ public class Ride extends BaseModelObject {
         this.status = status;
     }
 
-    public Center getCenter() {
-        return center;
+    public ObjectId getCenterId() {
+        return centerId;
     }
 
-    public void setCenter(Center center) {
-        this.center = center;
+    public void setCenterId(ObjectId centerId) {
+        this.centerId = centerId;
     }
 
     public int getTotalNoOfRiders() {
