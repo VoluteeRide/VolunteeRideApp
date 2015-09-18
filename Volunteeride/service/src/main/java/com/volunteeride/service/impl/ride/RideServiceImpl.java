@@ -6,11 +6,16 @@ import com.volunteeride.model.RideStatusEnum;
 import com.volunteeride.service.ride.RideService;
 import com.volunteeride.util.exception.ValidationExceptionUtil;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 /**
  * Created by ayazlakdawala on 8/31/15.
  */
+@Named
 public class RideServiceImpl implements RideService {
 
+    @Inject
     private RideDAO rideDAO;
 
     @Override

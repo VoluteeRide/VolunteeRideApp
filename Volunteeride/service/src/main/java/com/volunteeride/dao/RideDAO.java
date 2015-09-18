@@ -3,8 +3,6 @@ package com.volunteeride.dao;
 import com.volunteeride.model.Ride;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import javax.inject.Named;
-
 /**
  * This class represents Data Access Object level operations for Ride Object.
  *

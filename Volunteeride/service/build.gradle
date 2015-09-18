@@ -1,23 +1,31 @@
 group 'volunteeride'
 version '1.0-SNAPSHOT'
 
-// added "bill of materials" configuration for spring framework and spring data modules.
-// refer to https://github.com/spring-projects/spring-data-examples/tree/master/bom for more details
 buildscript {
 
     repositories {
         mavenCentral()
     }
 
+    // Either use Spring dependency management plugin or spring boot to resolve spring dependency versions.
     dependencies {
-        classpath 'io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE'
+
+        // added "bill of materials" configuration for spring framework and spring data modules.
+        // refer to https://github.com/spring-projects/spring-data-examples/tree/master/bom for more details
+        //classpath 'io.spring.gradle:dependency-management-plugin:0.5.3.RELEASE'
+
+        //Set up Spring boot gradle plugin
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.6.RELEASE")
     }
+
 }
 
-apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'io.spring.dependency-management'
+apply plugin: 'spring-boot'
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
+apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
@@ -25,18 +33,18 @@ repositories {
     mavenCentral()
 }
 
-ext {
+/*ext {
     springVersion = '4.2.1.RELEASE'
     springDataVersion = 'Gosling-RELEASE'
-}
+}*/
 
-// configured bom for spring framwork and spring data
-dependencyManagement {
+// configured bom for spring framework and spring data if you are using Spring dependency management plugin and maven boms
+/*dependencyManagement {
     imports {
         mavenBom "org.springframework:spring-framework-bom:${springVersion}"
         mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
     }
-}
+}*/
 
 dependencies {
 
@@ -44,10 +52,20 @@ dependencies {
     compile 'javax.inject:javax.inject:1'
 
     //dependency for spring data mongo db
-    compile 'org.springframework.data:spring-data-mongodb'
+
+    //use if you are resolving versions using bom
+    //compile 'org.springframework.data:spring-data-mongodb'
+
+    //use if you are using spring boot
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     // dependency for spring-test framework
-    testCompile 'org.springframework:spring-test'
+
+    //use if you are resolving versions using bom
+    //testCompile 'org.springframework:spring-test'
+
+    //use if you are using spring boot
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     //dependency for collections util
     compile 'org.apache.commons:commons-collections4:4.0'
@@ -60,7 +78,17 @@ dependencies {
 
     // mandatory dependencies for using Spock
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-
+    testCompile "org.codehaus.groovy:groovy-all:2.4.1"
     testRuntime 'org.spockframework:spock-spring:1.0-groovy-2.4'
+
+    //dependency for spring jersey integration
+    compile 'org.springframework.boot:spring-boot-starter-jersey'
+
+    //dependency for embedded tomcat container provided by spring boot
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    //dependency for de / serialization of joda date time to json
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.2'
+
 
 }
