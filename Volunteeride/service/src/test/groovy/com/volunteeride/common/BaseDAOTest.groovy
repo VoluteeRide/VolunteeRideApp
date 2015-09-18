@@ -1,7 +1,6 @@
 package com.volunteeride.common
 
-import com.volunteeride.springconfig.MongoDBConfig
-import com.volunteeride.springconfig.TestDBConfig
+import com.volunteeride.TestDBConfig
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification

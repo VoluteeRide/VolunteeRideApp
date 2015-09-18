@@ -70,11 +70,11 @@ class RideDAOTest extends BaseDAOTest {
         def ride = new Ride()
         ride.pickupLoc = pickUpLoc
         ride.dropoffLoc = dropoffLoc
-        ride.centerId = new ObjectId(center.id)
+        ride.centerId = center.id
         ride.pickupTime = new DateTime()
 
         def rideSeekers = new ArrayList<ObjectId>()
-        rideSeekers << new ObjectId(user.id)
+        rideSeekers << user.id
 
         ride.rideSeekerIds = rideSeekers
 

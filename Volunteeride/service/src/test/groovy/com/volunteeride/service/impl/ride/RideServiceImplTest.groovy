@@ -3,10 +3,8 @@ package com.volunteeride.service.impl.ride
 import com.volunteeride.common.BaseUnitTest
 import com.volunteeride.dao.RideDAO
 import com.volunteeride.exception.ValidationException
-import com.volunteeride.model.Center
 import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
-import org.bson.types.ObjectId
 import org.joda.time.DateTime
 
 /**
@@ -26,12 +24,12 @@ class RideServiceImplTest extends BaseUnitTest  {
         rideService.rideDAO = mockedRideDAO
 
         ride = new Ride();
-        ride.centerId = new ObjectId()
+        ride.centerId = "456"
         ride.pickupLoc = new Location()
         ride.dropoffLoc = new Location()
         ride.pickupTime = new DateTime()
-        def rideseekers = new ArrayList<ObjectId>()
-        rideseekers << new ObjectId();
+        def rideseekers = new ArrayList<String>()
+        rideseekers << "123";
         ride.rideSeekerIds = rideseekers
     }
 
@@ -120,7 +118,7 @@ class RideServiceImplTest extends BaseUnitTest  {
     def "validate ride seekers for empty list for Request Ride api "(){
 
         setup: "set up ride object for test"
-        ride.rideSeekerIds = new ArrayList<ObjectId>();
+        ride.rideSeekerIds = new ArrayList<String>();
 
         when: "function under test is executed"
         rideService.requestRide(ride);
@@ -133,7 +131,7 @@ class RideServiceImplTest extends BaseUnitTest  {
     def "test request ride api"(){
 
         setup : "set up expected ride object"
-        ride.id = String.valueOf(new ObjectId())
+        ride.id = "123"
 
         when: "function under test is executed"
         def  actualRide = rideService.requestRide(ride);

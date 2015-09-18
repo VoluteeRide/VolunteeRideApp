@@ -1,6 +1,5 @@
 package com.volunteeride.model;
 
-import org.bson.types.ObjectId;
 import org.joda.time.DateTime;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,28 +13,28 @@ import java.util.List;
 @Document
 public class Ride extends BaseModelObject {
 
-    private ObjectId volunteerId;
-    private List<ObjectId> rideSeekerIds;
+    private String volunteerId;
+    private List<String> rideSeekerIds;
     private Location pickupLoc;
     private Location dropoffLoc;
     private DateTime pickupTime;
     private RideStatusEnum status;
-    private ObjectId centerId;
+    private String centerId;
     private int totalNoOfRiders;
 
-    public ObjectId getVolunteerId() {
+    public String getVolunteerId() {
         return volunteerId;
     }
 
-    public void setVolunteerId(ObjectId volunteerId) {
+    public void setVolunteerId(String volunteerId) {
         this.volunteerId = volunteerId;
     }
 
-    public List<ObjectId> getRideSeekerIds() {
+    public List<String> getRideSeekerIds() {
         return rideSeekerIds;
     }
 
-    public void setRideSeekerIds(List<ObjectId> rideSeekerIds) {
+    public void setRideSeekerIds(List<String> rideSeekerIds) {
         this.rideSeekerIds = rideSeekerIds;
     }
 
@@ -71,11 +70,11 @@ public class Ride extends BaseModelObject {
         this.status = status;
     }
 
-    public ObjectId getCenterId() {
+    public String getCenterId() {
         return centerId;
     }
 
-    public void setCenterId(ObjectId centerId) {
+    public void setCenterId(String centerId) {
         this.centerId = centerId;
     }
 
