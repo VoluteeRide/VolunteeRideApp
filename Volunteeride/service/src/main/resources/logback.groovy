@@ -24,13 +24,14 @@ import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 
 import static ch.qos.logback.classic.Level.DEBUG
+import static ch.qos.logback.classic.Level.ERROR
 
 //Specify the location of log file
-def LOG_FILE_HOME = ""
+def LOG_FILE_HOME = "/Users/ayazlakdawala/ayaz/vRLogs"
 def LOG_FILE = "${LOG_FILE_HOME}/vRideApp.log"
 def ROLLING_LOG_FILE = "${LOG_FILE_HOME}/vRideRolling"
 def ENCODER_PATTERN = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
-def MAX_FILE_SIZE = "2MB"
+def MAX_FILE_SIZE = "1MB"
 
 //Console Appender
 appender("STDOUT", ConsoleAppender) {
@@ -81,6 +82,6 @@ appender("ROLLING_FILE_FIXED_WINDOW", RollingFileAppender) {
 
 
 //logger takes logger name,log level, appender name and additivity as parameters
-logger("com.volunteeride", DEBUG, ["FILE"], false)
+logger("com.volunteeride", ERROR, ["ROLLING_FILE_FIXED_WINDOW"], false)
 
-root(DEBUG, ["FILE", "STDOUT"])
+root(ERROR, ["STDOUT", "ROLLING_FILE_SIZE_AND_TIME"])
