@@ -5,10 +5,12 @@ import com.mongodb.MongoClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.core.WriteResultChecking;
@@ -24,13 +26,14 @@ import javax.inject.Inject;
  */
 
 @Configuration
+@EnableMongoAuditing //Needed to enable @CreatedDate annotation on model objects for auditing.
 @EnableMongoRepositories("com.volunteeride.dao")
-@PropertySource("classpath:mongodbConfig.properties")
 public class MongoDBConfig extends AbstractMongoConfiguration {
 
 
     /**
      * Place holder to read properties from the property files configured.
+     * The Property files are loaded by @PropertySource in other supporting Config files
      */
     @Inject
     private Environment env;
@@ -40,6 +43,7 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
      *
      * @return must not be {@literal null}.
      */
+    @Profile("dev")
     @Override
     protected String getDatabaseName() {
         return env.getProperty("mongodb.db");
