@@ -2,8 +2,8 @@
 This Repo tracks the server side code base for the services related to VolunteeRide App.
 
 ### Design Collaboration:
-[Design Document](https://drive.google.com/folderview?id=0B_O4LeO9jYKLfm95MjlQeHpBbHZJVGFxM3ZyTEdyamZCMDk2aFplbE16S3IydzRyTm82cHc&usp=sharing) 
-[Requirements Document](https://drive.google.com/drive/folders/0B_O4LeO9jYKLfm5VMzVjcTdkQXQyeDY4WjFyUHpKeHRCVi04Wk8wUVEtSG1IemEyTGIzUlk)
+* [Design Document](https://drive.google.com/folderview?id=0B_O4LeO9jYKLfm95MjlQeHpBbHZJVGFxM3ZyTEdyamZCMDk2aFplbE16S3IydzRyTm82cHc&usp=sharing)
+* [Requirements Document](https://drive.google.com/drive/folders/0B_O4LeO9jYKLfm5VMzVjcTdkQXQyeDY4WjFyUHpKeHRCVi04Wk8wUVEtSG1IemEyTGIzUlk)
 
 ### Steps to setup Project on local system.
 1. Pre-Requsites
