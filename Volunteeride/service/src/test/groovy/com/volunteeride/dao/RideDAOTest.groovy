@@ -6,6 +6,7 @@ import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
 import com.volunteeride.model.User
 import org.bson.types.ObjectId
+import org.joda.time.DateTime
 import org.springframework.test.annotation.Rollback
 
 import javax.inject.Inject
@@ -72,7 +73,7 @@ class RideDAOTest extends BaseDAOTest {
         ride.pickupLoc = pickUpLoc
         ride.dropoffLoc = dropoffLoc
         ride.centerId = center.id
-        ride.pickupTime = new Date()
+        ride.pickupTime = new DateTime()
 
         def rideSeekers = new ArrayList<ObjectId>()
         rideSeekers << user.id

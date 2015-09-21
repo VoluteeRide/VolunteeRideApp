@@ -84,5 +84,6 @@ dependencies {
     //dependency for embedded tomcat container provided by spring boot
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-
+    //dependency for de / serialization of joda date time to json
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.6'
 }

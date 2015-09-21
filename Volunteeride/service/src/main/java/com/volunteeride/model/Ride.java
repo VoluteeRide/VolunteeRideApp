@@ -1,9 +1,8 @@
 package com.volunteeride.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.joda.time.DateTime;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,8 +18,7 @@ public class Ride extends BaseModelObject {
     private Location pickupLoc;
     private Location dropoffLoc;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssZ")
-    private Date pickupTime;
+    private DateTime pickupTime;
 
     private RideStatusEnum status;
     private String centerId;
@@ -58,11 +56,11 @@ public class Ride extends BaseModelObject {
         this.dropoffLoc = dropoffLoc;
     }
 
-    public Date getPickupTime() {
+    public DateTime getPickupTime() {
         return pickupTime;
     }
 
-    public void setPickupTime(Date pickupTime) {
+    public void setPickupTime(DateTime pickupTime) {
         this.pickupTime = pickupTime;
     }
 

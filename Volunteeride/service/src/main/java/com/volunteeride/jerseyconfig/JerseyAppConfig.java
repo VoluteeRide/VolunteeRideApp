@@ -17,6 +17,7 @@ public class JerseyAppConfig extends ResourceConfig {
 
     public JerseyAppConfig() {
         //Register your rest endpoints here
+        register(ObjectMapperContextResolver.class);
         packages("com.volunteeride.resource");
     }
 

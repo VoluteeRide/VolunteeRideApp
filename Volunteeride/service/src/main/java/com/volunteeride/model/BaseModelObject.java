@@ -1,11 +1,9 @@
 package com.volunteeride.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
-
-import java.util.Date;
 
 
 /**
@@ -17,8 +15,7 @@ public class BaseModelObject {
     protected String id;
 
     @CreatedDate
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ssZ")
-    protected Date createdDatetime;
+    protected DateTime createdDatetime;
 
     @Version
     protected Long version;
@@ -39,11 +36,11 @@ public class BaseModelObject {
         this.version = version;
     }
 
-    public Date getCreatedDatetime() {
+    public DateTime getCreatedDatetime() {
         return createdDatetime;
     }
 
-    public void setCreatedDatetime(Date createdDatetime) {
+    public void setCreatedDatetime(DateTime createdDatetime) {
         this.createdDatetime = createdDatetime;
     }
 }

@@ -5,6 +5,7 @@ import com.volunteeride.dao.RideDAO
 import com.volunteeride.exception.ValidationException
 import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
+import org.joda.time.DateTime
 
 /**
  * Created by ayazlakdawala on 9/1/15.
@@ -26,7 +27,7 @@ class RideServiceImplTest extends BaseUnitTest  {
         ride.centerId = "456"
         ride.pickupLoc = new Location()
         ride.dropoffLoc = new Location()
-        ride.pickupTime = new Date()
+        ride.pickupTime = new DateTime()
         def rideseekers = new ArrayList<String>()
         rideseekers << "123";
         ride.rideSeekerIds = rideseekers
