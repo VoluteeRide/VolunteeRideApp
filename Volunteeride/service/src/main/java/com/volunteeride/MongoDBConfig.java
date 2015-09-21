@@ -5,7 +5,6 @@ import com.mongodb.MongoClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
@@ -42,10 +41,9 @@ public class MongoDBConfig extends AbstractMongoConfiguration {
      *
      * @return must not be {@literal null}.
      */
-    @Profile("dev")
     @Override
     protected String getDatabaseName() {
-        return env.getProperty("mongodb.db");
+        return env.getProperty("spring.data.mongodb.database");
     }
 
     /**

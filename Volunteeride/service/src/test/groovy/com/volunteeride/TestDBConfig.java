@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @Profile("test")
-@PropertySource("classpath:mongodbTestConfig.properties")
+@PropertySource("classpath:application-test.properties")
 @Import({MongoDBConfig.class})
 public class TestDBConfig {
 }
