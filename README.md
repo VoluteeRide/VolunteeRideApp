@@ -27,16 +27,15 @@ This Repo tracks the server side code base for the services related to VolunteeR
     ```
 5. In order to confirm if the data was inserted in the mongodb databse, open a new shell, type command **mongo**, a mongo shell    will open. Type the following commands to find the inserted data.
    * **show dbs** .. will show available databases. You should see volunteerideTest database.
-   * **use volunteerideTest** .. command to use this db
+   * **use volunteerideDevt** .. command to use this db
    * **show collections** .. will show ride, center and user collections.
    * **db.ride.find()** .. will display data in ride collection. Copy the center id for one of the ride document for testing 
      rest webservice in later steps.
 
-6. Open mongodbConfig.properties and change the value for **mongodb.db** to **volunteerideTest**
-7. In the gradle Tasks, in intellij, run **bootRun** Task. This will deploy the app on an embedded tomacat server.
-8. Go to the browser of your choice or any rest client plugins for these browsers (RestClient plugin for Mozilla)
-9. In-order to test whether are setup is successfull, we will make a rest call to one of the sample rest-webservices created for    the project which is ***Retrieve All Rides for a particular center.*** .
-10. Type url http://localhost:8080/volunteeride/centers/{PLUGIN THE CENTER ID COPIED EARLIER}/rides
+6. In the gradle Tasks, in intellij, run **bootRun** Task. This will deploy the app on an embedded tomacat server.
+7. Go to the browser of your choice or any rest client plugins for these browsers (RestClient plugin for Mozilla)
+8. In-order to test whether are setup is successfull, we will make a rest call to one of the sample rest-webservices created for    the project which is ***Retrieve All Rides for a particular center.*** .
+9. Type url http://localhost:8080/volunteeride/centers/{PLUGIN THE CENTER ID COPIED EARLIER}/rides
 10. You should get a Json response for the find rides rest webservice.
 11. ***CONGRATUALTIONS YOU HAVE SUCCESSFULLY SETUP THE VOLUNTEERIDE APP IN YOUR LOCAL SYSTEM :) !!!***
    
