@@ -29,8 +29,8 @@ public class RideResource {
     private RideDAO rideDAO;
 
     @GET
-    public List<Ride> findAll(){
-        return rideDAO.findAll();
+    public List<Ride> findByCenter(@PathParam("center_id") String centerId){
+        return rideDAO.findByCenterId(centerId);
     }
 
     @POST
