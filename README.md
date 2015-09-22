@@ -27,7 +27,7 @@ This Repo tracks the server side code base for the services related to VolunteeR
     ```
 5. In order to confirm if the data was inserted in the mongodb databse, open a new shell, type command **mongo**, a mongo shell    will open. Type the following commands to find the inserted data.
    * **show dbs** .. will show available databases. You should see volunteerideTest database.
-   * **use volunteerideDevt** .. command to use this db
+   * **use volunteerideDev** .. command to use this db
    * **show collections** .. will show ride, center and user collections.
    * **db.ride.find()** .. will display data in ride collection. Copy the center id for one of the ride document for testing 
      rest webservice in later steps.
