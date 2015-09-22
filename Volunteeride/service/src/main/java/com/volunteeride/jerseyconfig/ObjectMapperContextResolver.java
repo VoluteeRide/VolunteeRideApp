@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.inject.Inject;
 import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.Provider;
 
 /**
  * This class injects the Object Mapper created by Spring Boot into
@@ -11,6 +12,7 @@ import javax.ws.rs.ext.ContextResolver;
  *
  * Created by ayazlakdawala on 9/21/2015.
  */
+@Provider
 public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper> {
 
     @Inject
