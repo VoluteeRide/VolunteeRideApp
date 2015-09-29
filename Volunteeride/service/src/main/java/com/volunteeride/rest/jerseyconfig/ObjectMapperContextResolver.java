@@ -1,4 +1,4 @@
-package com.volunteeride.jerseyconfig;
+package com.volunteeride.rest.jerseyconfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,7 +20,6 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
 
     @Override
     public ObjectMapper getContext(Class<?> type) {
-        System.out.println("Jersey Object Mapper: " + mapper);
         return mapper;
     }
 }

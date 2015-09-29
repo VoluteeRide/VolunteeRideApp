@@ -1,4 +1,4 @@
-package com.volunteeride.jerseyconfig;
+package com.volunteeride.rest.jerseyconfig;
 
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -18,7 +18,7 @@ public class JerseyAppConfig extends ResourceConfig {
     public JerseyAppConfig() {
 
         //Register your rest endpoints here
-        packages("com.volunteeride.resource", "com.volunteeride.jerseyconfig");
+        packages("com.volunteeride.rest");
     }
 
 }
