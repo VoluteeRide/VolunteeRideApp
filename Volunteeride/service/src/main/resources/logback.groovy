@@ -30,7 +30,7 @@ import static ch.qos.logback.classic.Level.ERROR
 def LOG_FILE_HOME = "/Users/ayazlakdawala/ayaz/vRLogs"
 def LOG_FILE = "${LOG_FILE_HOME}/vRideApp.log"
 def ROLLING_LOG_FILE = "${LOG_FILE_HOME}/vRideRolling"
-def ENCODER_PATTERN = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+def ENCODER_PATTERN = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 def MAX_FILE_SIZE = "1MB"
 
 //Console Appender
@@ -84,4 +84,4 @@ appender("ROLLING_FILE_FIXED_WINDOW", RollingFileAppender) {
 //logger takes logger name,log level, appender name and additivity as parameters
 logger("com.volunteeride", ERROR, ["ROLLING_FILE_FIXED_WINDOW"], false)
 
-root(ERROR, ["STDOUT", "ROLLING_FILE_SIZE_AND_TIME"])
+root(ERROR, ["STDOUT", "ROLLING_FILE_FIXED_WINDOW"])
