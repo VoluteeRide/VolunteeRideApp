@@ -1,5 +1,7 @@
 package com.volunteeride.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,6 +23,8 @@ public class Ride extends BaseModelObject {
     private DateTime pickupTime;
 
     private RideStatusEnum status;
+
+    @JsonIgnore
     private String centerId;
     private int totalNoOfRiders;
 
@@ -72,10 +76,12 @@ public class Ride extends BaseModelObject {
         this.status = status;
     }
 
+    @JsonProperty
     public String getCenterId() {
         return centerId;
     }
 
+    @JsonIgnore
     public void setCenterId(String centerId) {
         this.centerId = centerId;
     }
