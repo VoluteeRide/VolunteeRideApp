@@ -1,23 +1,22 @@
 package com.volunteeride.util.exception;
 
+import com.volunteeride.common.constants.VolunteerideApplicationConstants;
 import com.volunteeride.exception.ValidationException;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.Collection;
+import java.util.ResourceBundle;
+
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
 
 /**
  * Created by ayazlakdawala on 9/7/15.
  */
 public class ValidationExceptionUtil {
 
-    public static void validateForEmptyOrNull(Object objToValidate, String arg){
+    protected static ResourceBundle excpArgBundle = exceptionArgumentBundle;
 
-        StringBuilder excpMsg = new StringBuilder("Required Data is missing : ");
-        excpMsg.append(arg);
-
-        String excpResolution = "Please provide the required data.";
-
-        String excpErrorCode = "VR1-01";
+    public static void validateForEmptyOrNull(Object objToValidate, Object[] argKeys){
 
         boolean validationFailed = false;
 
@@ -30,9 +29,29 @@ public class ValidationExceptionUtil {
         }
 
         if(validationFailed){
-            throw new ValidationException(excpMsg.toString(), null, excpResolution, excpErrorCode);
+            throw new ValidationException(VolunteerideApplicationConstants.ExceptionResourceConstants
+                    .REQUIRED_DATA_MISSING_EXCEPTION_KEY, resolveExceptionArguments(argKeys));
         }
 
+    }
+
+
+    /**
+     * This function takes in array of argument keys and resolves to
+     * proper String arguments defined in Property file.
+     *
+     * @param args
+     * @return
+     */
+    private static Object[] resolveExceptionArguments(Object[] args){
+
+        if(null != args){
+            for(int i=0; i< args.length; i++){
+                args[i] = excpArgBundle.getString((String)args[i]);
+            }
+        }
+
+        return args;
     }
 
 }
