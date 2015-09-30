@@ -19,8 +19,6 @@ public class ValidationExceptionMapper implements ExceptionMapper<ValidationExce
 
     private static final Logger logger = LoggerFactory.getLogger(ValidationExceptionMapper.class);
 
-
-
     /**
      * Map an exception to a {@link Response}. Returning
      * {@code null} results in a {@link Response.Status#NO_CONTENT}
