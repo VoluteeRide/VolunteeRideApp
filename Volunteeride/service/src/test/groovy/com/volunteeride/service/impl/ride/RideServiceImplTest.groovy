@@ -60,7 +60,7 @@ class RideServiceImplTest extends BaseUnitTest  {
 
         then:
         def excp = thrown(ValidationException)
-        this.testForEmptyOrNull(excp, "Center")
+        this.testForEmptyOrNull(excp, "Center Id")
     }
 
     def "validate pick up location object for Request Ride api "(){

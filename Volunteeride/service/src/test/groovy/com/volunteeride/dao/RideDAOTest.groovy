@@ -64,7 +64,6 @@ class RideDAOTest extends BaseDAOTest {
 
     }
 
-    @Rollback(false)
     def "test save ride "() {
 
         setup: "Set up ride object to insert"

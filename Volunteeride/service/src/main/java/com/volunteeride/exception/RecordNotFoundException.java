@@ -22,11 +22,10 @@ public class RecordNotFoundException extends BaseVolunteerideRuntimeException {
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
+     * @param messageKey the key to retrieve detailed message for exception from.
      */
-    public RecordNotFoundException(String message) {
-        super(message);
+    public RecordNotFoundException(String messageKey) {
+        super(messageKey);
     }
 
     /**
@@ -81,5 +80,13 @@ public class RecordNotFoundException extends BaseVolunteerideRuntimeException {
      */
     public RecordNotFoundException(String message, String customCause, String resolution, String errorCode) {
         super(message, customCause, resolution, errorCode);
+    }
+
+    /**
+     * @param messageKey
+     * @param args
+     */
+    public RecordNotFoundException(String messageKey, Object[] args){
+        super(messageKey, args);
     }
 }

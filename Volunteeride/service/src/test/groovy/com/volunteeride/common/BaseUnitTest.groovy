@@ -23,7 +23,7 @@ class BaseUnitTest extends Specification {
         expectedMsg.append(nullObjName);
         def expectedErrCode = "VR1-01"
         def expectedCustomCause = null
-        def expectedResolution = "Please provide the required data."
+        def expectedResolution = "Please provide the required " + nullObjName + " data."
         this.assertExpectedException(vExcp, expectedMsg.toString(), expectedCustomCause, expectedResolution, expectedErrCode)
     }
 
