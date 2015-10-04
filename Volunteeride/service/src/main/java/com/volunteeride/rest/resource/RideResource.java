@@ -1,6 +1,7 @@
 package com.volunteeride.rest.resource;
 
 import com.volunteeride.dao.RideDAO;
+import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.model.Ride;
 import com.volunteeride.service.ride.RideService;
 
@@ -13,6 +14,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 import java.util.List;
+
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_EXCP_ARG_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
+import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 
 /**
  * This class represents sub-resource for Center Resource.
@@ -49,5 +55,19 @@ public class RideResource {
 
         return Response.created(uri).entity(newRide).build();
     }
+
+    @Path("/{ride_id}")
+    @GET
+    public Response getRideDetails(@PathParam("center_id") String centerId, @PathParam("ride_id") String rideId) {
+        Ride retrievedRide = rideDAO.findByCenterIdAndId(centerId, rideId);
+
+        if(null != retrievedRide){
+            return Response.ok(retrievedRide).build();
+        } else{
+            throw new RecordNotFoundException(RECORD_NOT_FOUND_EXCEPTION_KEY,
+                    new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
+        }
+    }
+
 
 }

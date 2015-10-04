@@ -14,4 +14,6 @@ public interface RideDAO extends MongoRepository<Ride, String> {
 
     List<Ride> findByCenterId(String centerId);
 
+    Ride findByCenterIdAndId(String centerId, String rideId);
+
 }
