@@ -84,7 +84,7 @@ public class RideServiceImpl implements RideService {
         if(null != invalidRideSeekers){
             throw new RecordNotFoundException(RECORD_NOT_FOUND_EXCEPTION_KEY,
                     new Object[]{exceptionArgumentBundle.getString(RIDE_SEEKERS_EXCP_ARG_KEY),
-                            invalidRideSeekers.toString()});
+                            invalidRideSeekers.toString().trim()});
         }
 
 
