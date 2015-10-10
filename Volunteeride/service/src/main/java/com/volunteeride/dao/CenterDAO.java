@@ -9,4 +9,7 @@ import javax.inject.Named;
  * Created by ayazlakdawala on 9/17/15.
  */
 public interface CenterDAO extends MongoRepository<Center, String>{
+
+    Center findById(String id);
+
 }
