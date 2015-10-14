@@ -3,10 +3,15 @@ package com.volunteeride.rest.resource;
 import com.volunteeride.dao.RideDAO;
 import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.model.Ride;
+import com.volunteeride.rest.resource.beans.RideSearchQueryCriteriaBean;
 import com.volunteeride.service.ride.RideService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -42,8 +47,10 @@ public class RideResource {
     private RideDAO rideDAO;
 
     @GET
-    public List<Ride> findByCenter(@PathParam("center_id") String centerId) {
-        return rideDAO.findByCenterId(centerId);
+    public Response searchRides(@BeanParam RideSearchQueryCriteriaBean rideSearchCriteria) {
+
+        Page<Ride> searchedRides = rideDAO.searchRides(rideSearchCriteria);
+        return Response.ok(searchedRides).build();
     }
 
     @POST
@@ -72,6 +79,5 @@ public class RideResource {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
     }
-
 
 }
