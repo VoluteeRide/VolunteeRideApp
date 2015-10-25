@@ -19,14 +19,16 @@ public class Ride extends BaseModelObject {
     private List<String> rideSeekerIds;
     private Location pickupLoc;
     private Location dropoffLoc;
-
     private DateTime pickupTime;
-
     private RideStatusEnum status;
 
     @JsonIgnore
     private String centerId;
     private int totalNoOfRiders;
+
+    @JsonIgnore
+    private List<RideOperationEnum> nextRideUserOperations;
+
 
     public String getVolunteerId() {
         return volunteerId;
@@ -92,5 +94,15 @@ public class Ride extends BaseModelObject {
 
     public void setTotalNoOfRiders(int totalNoOfRiders) {
         this.totalNoOfRiders = totalNoOfRiders;
+    }
+
+    @JsonProperty
+    public List<RideOperationEnum> getNextRideUserOperations() {
+        return nextRideUserOperations;
+    }
+
+    @JsonIgnore
+    public void setNextRideUserOperations(List<RideOperationEnum> nextRideUserOperations) {
+        this.nextRideUserOperations = nextRideUserOperations;
     }
 }
