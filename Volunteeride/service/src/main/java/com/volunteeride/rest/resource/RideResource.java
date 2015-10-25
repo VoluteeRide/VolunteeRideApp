@@ -3,11 +3,10 @@ package com.volunteeride.rest.resource;
 import com.volunteeride.dao.RideDAO;
 import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.model.Ride;
+import com.volunteeride.model.RideOperationEnum;
 import com.volunteeride.rest.resource.beans.RideSearchQueryCriteriaBean;
 import com.volunteeride.service.ride.RideService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,6 +14,7 @@ import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -23,7 +23,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.util.List;
 
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
@@ -70,14 +69,19 @@ public class RideResource {
     @Path("/{ride_id}")
     @GET
     public Response getRideDetails(@PathParam("center_id") String centerId, @PathParam("ride_id") String rideId) {
-        Ride retrievedRide = rideDAO.findByCenterIdAndId(centerId, rideId);
 
-        if(null != retrievedRide){
-            return Response.ok(retrievedRide).build();
-        } else{
-            throw new RecordNotFoundException(RECORD_NOT_FOUND_EXCEPTION_KEY,
-                    new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
-        }
+        Ride retrievedRide = rideService.retrieveRideDetails(centerId, rideId);
+        return Response.ok(retrievedRide).build();
+    }
+
+    @Path("/{ride_id}/operation/{operation_name}")
+    @PUT
+    public Response executeRideOperation(@PathParam("center_id") String centerId,
+                                         @PathParam("ride_id") String rideId,
+                                         @PathParam("operation_name") RideOperationEnum rideOperation){
+
+        Ride updatedRide = rideService.executeRideOperation(centerId, rideId, rideOperation);
+        return null;
     }
 
 }
