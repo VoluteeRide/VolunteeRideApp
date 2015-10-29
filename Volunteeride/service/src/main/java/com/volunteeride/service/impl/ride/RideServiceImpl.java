@@ -5,17 +5,18 @@ import com.volunteeride.dao.RideDAO;
 import com.volunteeride.dao.UserDAO;
 import com.volunteeride.dto.UserTypeRideStateKey;
 import com.volunteeride.dto.UserTypeRideStateOperationKey;
-import com.volunteeride.exception.BaseVolunteerideRuntimeException;
 import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.exception.ValidationException;
 import com.volunteeride.model.Ride;
 import com.volunteeride.model.RideOperationEnum;
 import com.volunteeride.model.RideStatusEnum;
-import com.volunteeride.model.UserTypeEnum;
+import com.volunteeride.model.UserRoleEnum;
 import com.volunteeride.service.ride.RideService;
 import com.volunteeride.util.exception.ValidationExceptionUtil;
 import com.volunteeride.util.statetransition.RideStateTransition;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -33,10 +34,9 @@ import static com.volunteeride.common.constants.VolunteerideApplicationConstants
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RIDE_PICK_UP_TIME_VALIDATION_EXCEPTION_KEY;
-import static com.volunteeride.model.RideOperationEnum.CANCEL;
 import static com.volunteeride.model.RideStatusEnum.REQUESTED;
-import static com.volunteeride.model.UserTypeEnum.RIDE_SEEKER;
-import static com.volunteeride.model.UserTypeEnum.VOLUNTEER;
+import static com.volunteeride.model.UserRoleEnum.RIDE_SEEKER;
+import static com.volunteeride.model.UserRoleEnum.VOLUNTEER;
 import static com.volunteeride.util.statetransition.RideStateTransition.userRideOperationsMap;
 
 /**
@@ -44,7 +44,7 @@ import static com.volunteeride.util.statetransition.RideStateTransition.userRide
  */
 @Named
 public class RideServiceImpl implements RideService {
-
+    
     @Inject
     private RideDAO rideDAO;
 
@@ -76,8 +76,6 @@ public class RideServiceImpl implements RideService {
 
         String loggedInUserId = "";
 
-        List<UserTypeEnum> loggedInUserTypes = Arrays.asList(RIDE_SEEKER, VOLUNTEER);
-
         Ride retrievedRide = rideDAO.findByCenterIdAndId(centerId, rideId);
 
         if(null == retrievedRide){
@@ -85,53 +83,50 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-        UserTypeEnum userTypeToUse = null;
+        UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(retrievedRide);
 
-        if(retrievedRide.getRideSeekerIds().contains(loggedInUserId) && loggedInUserTypes.contains(RIDE_SEEKER)){
-
-            userTypeToUse = RIDE_SEEKER;
-
-        } else if((retrievedRide.getVolunteerId() != null &&
-                retrievedRide.getVolunteerId().equals(loggedInUserId) &&
-                loggedInUserTypes.contains(VOLUNTEER))){
-
-            userTypeToUse = VOLUNTEER;
-
-        } else if(retrievedRide.getVolunteerId() == null &&
-                retrievedRide.getStatus().name().equals(REQUESTED) &&
-                loggedInUserTypes.contains(VOLUNTEER)) {
-
-            userTypeToUse = VOLUNTEER;
+        //if the ride is in REQUESTED state and the loggend in user trying to perform an operation on the ride is
+        // a volunteer, set logged in user as a volunteer for the ride.
+        if(userRideRole == VOLUNTEER && retrievedRide.getStatus().name().equals(REQUESTED.name())){
             retrievedRide.setVolunteerId(loggedInUserId);
-
-        } else {
-            //TODO AYAZ Throw Access Denied Forbidden 403 exception
         }
 
         List<RideOperationEnum> validRideOperationsForLoggedInUser = userRideOperationsMap
-                .get(new UserTypeRideStateKey(userTypeToUse, retrievedRide.getStatus()));
+                .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
 
 
         if(!validRideOperationsForLoggedInUser.contains(rideOperation)){
-            //TODO AYAZ Throw Access Denied Forbidden 403 exception
+            //TODO AYAZ Throw Invalid operation exception
         }
 
+        RideStatusEnum rideCurrentState = retrievedRide.getStatus();
+
         RideStatusEnum rideTransitionedState = RideStateTransition.transitionedRideStateMap
-                .get(new UserTypeRideStateOperationKey(userTypeToUse, retrievedRide.getStatus(), rideOperation));
+                .get(new UserTypeRideStateOperationKey(userRideRole, rideCurrentState, rideOperation));
 
         if(rideTransitionedState == null){
-            //TODO AYAZ Throw Access Denied Forbidden 403 exception
+            //TODO AYAZ Throw Operation cannot be performed exception
 
         }
 
         retrievedRide.setStatus(rideTransitionedState);
 
+        if(rideTransitionedState.name().equals(REQUESTED.name())){
+
+            //reset the volunteer id if the transitioned state of the Ride is "REQUESTED"
+            retrievedRide.setVolunteerId(null);
+        }
+
+        Ride updatedRide = rideDAO.save(retrievedRide);
+
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
-                .get(new UserTypeRideStateKey(userTypeToUse, retrievedRide.getStatus()));
+                .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
 
-        retrievedRide.setNextRideUserOperations(nextRideOperations);
+        // ensure that you do not persist next ride user operations in the database as it should be determined by the
+        // system when the ride details are rendered to the client.
+        updatedRide.setNextRideUserOperations(nextRideOperations);
 
-        return retrievedRide;
+        return updatedRide;
     }
 
     /**
@@ -141,14 +136,9 @@ public class RideServiceImpl implements RideService {
      * @param rideId
      * @return
      */
-    //TODO Ayaz resolve retrieving user in session
     //TODO Ayaz Write Test
     @Override
     public Ride retrieveRideDetails(String centerId, String rideId) {
-
-        String loggedInUserId = "";
-
-        List<UserTypeEnum> loggedInUserTypes = Arrays.asList(RIDE_SEEKER, VOLUNTEER);
 
         Ride retrievedRide = rideDAO.findByCenterIdAndId(centerId, rideId);
 
@@ -157,25 +147,10 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-        UserTypeEnum userTypeToUse = null;
-
-        if(retrievedRide.getRideSeekerIds().contains(loggedInUserId) && loggedInUserTypes.contains(RIDE_SEEKER)){
-
-            userTypeToUse = RIDE_SEEKER;
-
-        } else if((retrievedRide.getVolunteerId() != null &&
-                retrievedRide.getVolunteerId().equals(loggedInUserId) &&
-                loggedInUserTypes.contains(VOLUNTEER)) ||
-                loggedInUserTypes.contains(VOLUNTEER)){
-
-            userTypeToUse = VOLUNTEER;
-
-        } else {
-            //TODO AYAZ Throw Access Denied Forbidden 403 exception
-        }
+       UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(retrievedRide);
 
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
-                .get(new UserTypeRideStateKey(userTypeToUse, retrievedRide.getStatus()));
+                .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
 
         retrievedRide.setNextRideUserOperations(nextRideOperations);
 
@@ -229,6 +204,39 @@ public class RideServiceImpl implements RideService {
     }
 
 
+    /**
+     * This is a helper method which determines if the user has access to the ride and returns the role of the user
+     * in context of specific ride.
+     *
+     * @param ride
+     * @return
+     */
+    //TODO Ayaz resolve retrieving user in session
+    private UserRoleEnum validateUserAccessToRideAndRetrieveUserRideRole(Ride ride){
+
+        String loggedInUserId = "";
+
+        List<UserRoleEnum> loggedInUserRoles = Arrays.asList(RIDE_SEEKER, VOLUNTEER);
+
+        UserRoleEnum userRideRole = null;
+
+        if(ride.getRideSeekerIds().contains(loggedInUserId) && loggedInUserRoles.contains(RIDE_SEEKER)){
+
+            userRideRole = RIDE_SEEKER;
+
+        } else if((ride.getVolunteerId() != null && ride.getVolunteerId().equals(loggedInUserId) &&
+                loggedInUserRoles.contains(VOLUNTEER)) ||
+                (ride.getVolunteerId() == null && loggedInUserRoles.contains(VOLUNTEER))){
+
+            userRideRole = VOLUNTEER;
+
+        } else {
+            //TODO AYAZ Throw Access Denied Forbidden 403 exception
+        }
+
+        return userRideRole;
+
+    }
 
 
 }

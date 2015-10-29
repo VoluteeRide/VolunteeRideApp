@@ -3,6 +3,7 @@ package com.volunteeride.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -26,6 +27,12 @@ public class Ride extends BaseModelObject {
     private String centerId;
     private int totalNoOfRiders;
 
+    /**
+     * This attribute is not persisted in the database.
+     * It is purely a read only field and will be populated based on logged in User's Type,
+     * when a ride details are rendered to the client.
+     */
+    @Transient
     @JsonIgnore
     private List<RideOperationEnum> nextRideUserOperations;
 

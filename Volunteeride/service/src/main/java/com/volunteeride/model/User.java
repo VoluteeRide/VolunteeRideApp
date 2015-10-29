@@ -21,6 +21,7 @@ public class User extends BaseModelObject{
     private String phone;
     private List<Vehicle> ownedVehicles;
     private ObjectId centerId;
+    private List<UserRoleEnum> userRoles;
 
     public String getUsername() {
         return username;
@@ -84,5 +85,13 @@ public class User extends BaseModelObject{
 
     public void setCenterId(ObjectId centerId) {
         this.centerId = centerId;
+    }
+
+    public List<UserRoleEnum> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRoleEnum> userRoles) {
+        this.userRoles = userRoles;
     }
 }

@@ -1,7 +1,7 @@
 package com.volunteeride.dto;
 
 import com.volunteeride.model.RideStatusEnum;
-import com.volunteeride.model.UserTypeEnum;
+import com.volunteeride.model.UserRoleEnum;
 
 /**
  * This class represents a wrapper key for representing hash map,
@@ -14,7 +14,7 @@ public class UserTypeRideStateKey implements Comparable<UserTypeRideStateKey> {
 
     private String key;
 
-    public UserTypeRideStateKey(UserTypeEnum userType, RideStatusEnum currentRideStatus) {
+    public UserTypeRideStateKey(UserRoleEnum userType, RideStatusEnum currentRideStatus) {
         this.key = userType.name() + currentRideStatus.name();
     }
 

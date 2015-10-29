@@ -18,8 +18,8 @@ import static com.volunteeride.model.RideStatusEnum.ACCEPTED;
 import static com.volunteeride.model.RideStatusEnum.ACKNOWLEDGED;
 import static com.volunteeride.model.RideStatusEnum.CANCELLED;
 import static com.volunteeride.model.RideStatusEnum.REQUESTED;
-import static com.volunteeride.model.UserTypeEnum.RIDE_SEEKER;
-import static com.volunteeride.model.UserTypeEnum.VOLUNTEER;
+import static com.volunteeride.model.UserRoleEnum.RIDE_SEEKER;
+import static com.volunteeride.model.UserRoleEnum.VOLUNTEER;
 
 /**
  * Created by ayazlakdawala on 10/25/15.
