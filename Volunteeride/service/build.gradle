@@ -90,4 +90,7 @@ dependencies {
 
     //dependency for de / serialization of joda date time to json
     compile 'com.fasterxml.jackson.datatype:jackson-datatype-joda:2.4.6'
+
+    //dependency for spring security
+    compile("org.springframework.boot:spring-boot-starter-security")
 }
