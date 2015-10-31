@@ -14,17 +14,8 @@ This Repo tracks the server side code base for the services related to VolunteeR
 2. Clone the project on the local system. 
 3. Import the project as a gradle project in Intellij.
 3. Start MongoDB server using command **mongod --dbPath <PATH_TO_YOUR_DB_DIRECTORY>** by opening a new shell.
-4. To quickly insert sample data in the test database, execute com.volunteeride.dao.RideDAOTest#test save ride test by having  
-   @Rollback(false) annotation in the following way. The annotation will make sure that the data gets committed to the database.
-   ```
-   @Rollback(false)
-    def "test save ride "() {
-
-        setup: "Set up ride object to insert"
-        ...
-        ...
-    }
-    ```
+4. To quickly insert sample data in the test database,  execute command gradlew cleanTest test --tests  
+   "com.volunteeride.dao.RideDAOTest.test save ride "
 5. In order to confirm if the data was inserted in the mongodb databse, open a new shell, type command **mongo**, a mongo shell    will open. Type the following commands to find the inserted data.
    * **show dbs** .. will show available databases. You should see volunteerideTest database.
    * **use volunteerideDev** .. command to use this db
