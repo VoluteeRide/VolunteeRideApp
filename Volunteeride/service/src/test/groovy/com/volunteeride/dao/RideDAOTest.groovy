@@ -56,14 +56,15 @@ class RideDAOTest extends BaseDAOTest {
 
         //Insert Ride Seeker
         user = new User()
-        user.firstName = "ayaz"
-        user.lastName = "lakdawala"
-        user.phone = "202-286-3886"
+        user.firstName = "user First Name"
+        user.lastName = "user last name"
+        user.phone = "123-456-8792"
 
         userDAO.save(user)
 
     }
 
+    @Rollback(false)
     def "test save ride "() {
 
         setup: "Set up ride object to insert"
