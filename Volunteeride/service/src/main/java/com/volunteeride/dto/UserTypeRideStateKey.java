@@ -15,7 +15,8 @@ public class UserTypeRideStateKey implements Comparable<UserTypeRideStateKey> {
     private String key;
 
     public UserTypeRideStateKey(UserRoleEnum userType, RideStatusEnum currentRideStatus) {
-        this.key = userType.name() + currentRideStatus.name();
+        this.key = ((userType != null) ? userType.name() : null) +
+                ((currentRideStatus != null) ? currentRideStatus.name() : null);
     }
 
     @Override
