@@ -7,5 +7,5 @@ import com.volunteeride.model.VolunteerideUser;
  */
 public interface UserService {
 
-    VolunteerideUser getLoggedInUser();
+    VolunteerideUser getLoggedInUserDetails();
 }

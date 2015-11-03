@@ -1,14 +1,10 @@
 package com.volunteeride.dao
 
 import com.volunteeride.common.BaseDAOTest
-import com.volunteeride.model.Center
-import com.volunteeride.model.Location
-import com.volunteeride.model.Ride
-import com.volunteeride.model.RideStatusEnum
-import com.volunteeride.model.UserRoleEnum
-import com.volunteeride.model.VolunteerideUser
+import com.volunteeride.model.*
 import org.bson.types.ObjectId
 import org.joda.time.DateTime
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.annotation.Rollback
 
 import javax.inject.Inject
@@ -17,6 +13,9 @@ import javax.inject.Inject
  * Created by ayazlakdawala on 9/17/2015.
  */
 class RideDAOTest extends BaseDAOTest {
+
+    @Inject
+    private PasswordEncoder passwordEncoder;
 
     @Inject
     private RideDAO rideDAO
@@ -62,7 +61,8 @@ class RideDAOTest extends BaseDAOTest {
         rideseeker.firstName = "rideseeker First Name"
         rideseeker.lastName = "rideseeker last name"
         rideseeker.phone = "123-456-8792"
-        rideseeker.username = "ayaz"
+        rideseeker.username = "rideusr"
+        rideseeker.password = passwordEncoder.encode("password");
 
         def rideSeekerUserRoles = new ArrayList<UserRoleEnum>()
         rideSeekerUserRoles << UserRoleEnum.RIDE_SEEKER
@@ -75,13 +75,14 @@ class RideDAOTest extends BaseDAOTest {
         volunteer.firstName = "volunteer First Name"
         volunteer.lastName = "volunteer last name"
         volunteer.phone = "123-456-8792"
-        volunteer.username = "karim"
+        volunteer.username = "volusr"
+        volunteer.password = passwordEncoder.encode("password");
 
         def volunteerUserRoles = new ArrayList<UserRoleEnum>()
         volunteerUserRoles << UserRoleEnum.VOLUNTEER
         volunteer.userRoles = volunteerUserRoles
 
-        userDAO.save(rideseeker)
+        userDAO.save(volunteer)
     }
 
     @Rollback(false)

@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     //TODO Ayaz Write tests and cover base scenarios
-    public VolunteerideUser getLoggedInUser() {
+    public VolunteerideUser getLoggedInUserDetails() {
 
         VolunteerideUser loggedInUser = null;
 

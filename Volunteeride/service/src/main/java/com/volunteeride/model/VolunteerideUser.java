@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.Constraint;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,6 +27,23 @@ public class VolunteerideUser extends BaseModelObject{
     private ObjectId centerId;
     
     private List<UserRoleEnum> userRoles;
+
+    /**
+     * Utility method to return Comma separated list of Roles assigned to the User
+     * Reference https://github.com/jthoms/spring-security-mongodb/blob/master/src/main/java/com/sustia/domain/UserAccount.java
+     * @return Comma Seperated String of User Roles
+     */
+    public String getCommaSeperatedRoles() {
+        StringBuilder sb = new StringBuilder();
+        for (Iterator<UserRoleEnum> iter = this.userRoles.iterator(); iter.hasNext(); )
+        {
+            sb.append(iter.next().name());
+            if (iter.hasNext()) {
+                sb.append(',');
+            }
+        }
+        return sb.toString();
+    }
 
     public String getUsername() {
         return username;

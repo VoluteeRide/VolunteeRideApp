@@ -1,5 +1,7 @@
 package com.volunteeride;
 
+import com.volunteeride.security.handler.CustomHttpStatusReturningLogoutSuccessHandler;
+import com.volunteeride.security.provider.VolunteerideAuthenticationProvider;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,26 +16,27 @@ import javax.inject.Inject;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Inject
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("ayaz").password("password").roles("RIDE_SEEKER");
+    private VolunteerideAuthenticationProvider volunteerideAuthenticationProvider;
+
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(volunteerideAuthenticationProvider);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .anyRequest().permitAll();
-                /*.antMatchers("/volunteeride*//**").hasAnyRole("VOLUNTEER", "RIDE_SEEKER")
+                .antMatchers("/volunteeride/**").hasAnyAuthority("VOLUNTEER", "RIDE_SEEKER")
                 .anyRequest().authenticated()
+                .and()
+                .logout().logoutUrl("/volunteeride/logout")
+                .logoutSuccessHandler(new CustomHttpStatusReturningLogoutSuccessHandler())
                 .and()
                 .httpBasic()
                 .and()
-                .logout().logoutUrl("/volunteeride/logout").logoutSuccessHandler(new CustomHttpStatusReturningLogoutSuccessHandler())
-                .and()
-                .csrf().disable();*/
-
+                .csrf().disable();
     }
 
 }
