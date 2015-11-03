@@ -1,19 +1,23 @@
 package com.volunteeride.model;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.Constraint;
 import java.util.List;
 
 /**
- * This class represents User Model Object
+ * This class represents Volunteeride User Model Object
  *
  * Created by ayazlakdawala on 9/7/15.
  */
 @Document
-public class User extends BaseModelObject{
+public class VolunteerideUser extends BaseModelObject{
 
+    @Indexed(unique = true)
     private String username;
+
     private String password;
     private String firstName;
     private String lastName;
@@ -21,6 +25,7 @@ public class User extends BaseModelObject{
     private String phone;
     private List<Vehicle> ownedVehicles;
     private ObjectId centerId;
+    
     private List<UserRoleEnum> userRoles;
 
     public String getUsername() {
