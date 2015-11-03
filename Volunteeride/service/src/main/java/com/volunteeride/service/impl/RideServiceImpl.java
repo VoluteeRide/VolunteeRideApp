@@ -75,8 +75,6 @@ public class RideServiceImpl implements RideService {
     @Override
     public Ride executeRideOperation(String centerId, String rideId, RideOperationEnum rideOperation) {
 
-        String loggedInUserId = "";
-
         Ride retrievedRide = rideDAO.findByCenterIdAndId(centerId, rideId);
 
         if(null == retrievedRide){
@@ -84,12 +82,15 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-        UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(retrievedRide);
+        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
+
+        UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(loggedInUser, retrievedRide);
 
         //if the ride is in REQUESTED state and the loggend in user trying to perform an operation on the ride is
         // a volunteer, set logged in user as a volunteer for the ride.
-        if(userRideRole == VOLUNTEER && retrievedRide.getStatus().name().equals(REQUESTED.name())){
-            retrievedRide.setVolunteerId(loggedInUserId);
+        if(userRideRole.name().equals(VOLUNTEER.name()) &&
+                retrievedRide.getStatus().name().equals(REQUESTED.name())){
+            retrievedRide.setVolunteerId(loggedInUser.getId());
         }
 
         List<RideOperationEnum> validRideOperationsForLoggedInUser = userRideOperationsMap
@@ -121,7 +122,7 @@ public class RideServiceImpl implements RideService {
         Ride updatedRide = rideDAO.save(retrievedRide);
 
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
-                .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
+                .get(new UserTypeRideStateKey(userRideRole, updatedRide.getStatus()));
 
         // ensure that you do not persist next ride user operations in the database as it should be determined by the
         // system when the ride details are rendered to the client.
@@ -149,9 +150,11 @@ public class RideServiceImpl implements RideService {
         }
 
         //TODO Ayaz Un-comment this when user login functionality fully implemented
-       //UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(retrievedRide);
+        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
 
-        UserRoleEnum userRideRole = null;
+        UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(loggedInUser, retrievedRide);
+
+        //UserRoleEnum userRideRole = null;
 
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
                 .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
@@ -216,23 +219,22 @@ public class RideServiceImpl implements RideService {
      * @return
      */
     //TODO Ayaz resolve retrieving user in session
-    private UserRoleEnum validateUserAccessToRideAndRetrieveUserRideRole(Ride ride){
+    //TODO Ayaz Write Tests
+    private UserRoleEnum validateUserAccessToRideAndRetrieveUserRideRole(VolunteerideUser user, Ride ride){
 
-        VolunteerideUser loggedInUser = userService.getLoggedInUser();
+        String userId = user.getId();
 
-        String loggedInUserId = loggedInUser.getId();
-
-        List<UserRoleEnum> loggedInUserRoles = loggedInUser.getUserRoles();
+        List<UserRoleEnum> userRoles = user.getUserRoles();
 
         UserRoleEnum userRideRole = null;
 
-        if(ride.getRideSeekerIds().contains(loggedInUserId) && loggedInUserRoles.contains(RIDE_SEEKER)){
+        if(ride.getRideSeekerIds().contains(userId) && userRoles.contains(RIDE_SEEKER)){
 
             userRideRole = RIDE_SEEKER;
 
-        } else if((ride.getVolunteerId() != null && ride.getVolunteerId().equals(loggedInUserId) &&
-                loggedInUserRoles.contains(VOLUNTEER)) ||
-                (ride.getVolunteerId() == null && loggedInUserRoles.contains(VOLUNTEER))){
+        } else if((ride.getVolunteerId() != null && ride.getVolunteerId().equals(userId) &&
+                userRoles.contains(VOLUNTEER)) ||
+                (ride.getVolunteerId() == null && userRoles.contains(VOLUNTEER))){
 
             userRideRole = VOLUNTEER;
 

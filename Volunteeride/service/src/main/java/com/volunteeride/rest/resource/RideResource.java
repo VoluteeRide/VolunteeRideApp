@@ -76,7 +76,7 @@ public class RideResource {
                                          @PathParam("operation_name") RideOperationEnum rideOperation){
 
         Ride updatedRide = rideService.executeRideOperation(centerId, rideId, rideOperation);
-        return null;
+        return Response.ok(updatedRide).build();
     }
 
 }
