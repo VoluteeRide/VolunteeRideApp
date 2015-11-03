@@ -4,7 +4,9 @@ import com.volunteeride.common.BaseDAOTest
 import com.volunteeride.model.Center
 import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
-import com.volunteeride.model.User
+import com.volunteeride.model.RideStatusEnum
+import com.volunteeride.model.UserRoleEnum
+import com.volunteeride.model.VolunteerideUser
 import org.bson.types.ObjectId
 import org.joda.time.DateTime
 import org.springframework.test.annotation.Rollback
@@ -28,7 +30,8 @@ class RideDAOTest extends BaseDAOTest {
     def center
     def pickUpLoc
     def dropoffLoc
-    def user
+    def rideseeker
+    def volunteer
 
     void setup() {
 
@@ -55,13 +58,30 @@ class RideDAOTest extends BaseDAOTest {
         centerDAO.save(center)
 
         //Insert Ride Seeker
-        user = new User()
-        user.firstName = "user First Name"
-        user.lastName = "user last name"
-        user.phone = "123-456-8792"
+        rideseeker = new VolunteerideUser()
+        rideseeker.firstName = "rideseeker First Name"
+        rideseeker.lastName = "rideseeker last name"
+        rideseeker.phone = "123-456-8792"
+        rideseeker.username = "ayaz"
 
-        userDAO.save(user)
+        def rideSeekerUserRoles = new ArrayList<UserRoleEnum>()
+        rideSeekerUserRoles << UserRoleEnum.RIDE_SEEKER
+        rideseeker.userRoles = rideSeekerUserRoles
 
+        userDAO.save(rideseeker)
+
+        //Insert Volunteer
+        volunteer = new VolunteerideUser()
+        volunteer.firstName = "volunteer First Name"
+        volunteer.lastName = "volunteer last name"
+        volunteer.phone = "123-456-8792"
+        volunteer.username = "karim"
+
+        def volunteerUserRoles = new ArrayList<UserRoleEnum>()
+        volunteerUserRoles << UserRoleEnum.VOLUNTEER
+        volunteer.userRoles = volunteerUserRoles
+
+        userDAO.save(rideseeker)
     }
 
     @Rollback(false)
@@ -74,9 +94,10 @@ class RideDAOTest extends BaseDAOTest {
         ride.dropoffLoc = dropoffLoc
         ride.centerId = center.id
         ride.pickupTime = new DateTime()
+        ride.status = RideStatusEnum.REQUESTED
 
         def rideSeekers = new ArrayList<ObjectId>()
-        rideSeekers << user.id
+        rideSeekers << rideseeker.id
 
         ride.rideSeekerIds = rideSeekers
 
