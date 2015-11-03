@@ -1,4 +1,4 @@
-package com.volunteeride.service.impl.ride;
+package com.volunteeride.service.impl;
 
 import com.volunteeride.dao.CenterDAO;
 import com.volunteeride.dao.RideDAO;
@@ -11,17 +11,15 @@ import com.volunteeride.model.Ride;
 import com.volunteeride.model.RideOperationEnum;
 import com.volunteeride.model.RideStatusEnum;
 import com.volunteeride.model.UserRoleEnum;
-import com.volunteeride.service.ride.RideService;
+import com.volunteeride.model.VolunteerideUser;
+import com.volunteeride.service.RideService;
+import com.volunteeride.service.UserService;
 import com.volunteeride.util.exception.ValidationExceptionUtil;
 import com.volunteeride.util.statetransition.RideStateTransition;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import java.util.Arrays;
 import java.util.List;
 
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.CENTER_EXCP_ARG_KEY;
@@ -53,6 +51,9 @@ public class RideServiceImpl implements RideService {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private UserService userService;
 
     @Override
     public Ride requestRide(Ride ride) {
@@ -147,7 +148,10 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-       UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(retrievedRide);
+        //TODO Ayaz Un-comment this when user login functionality fully implemented
+       //UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(retrievedRide);
+
+        UserRoleEnum userRideRole = null;
 
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
                 .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
@@ -214,9 +218,11 @@ public class RideServiceImpl implements RideService {
     //TODO Ayaz resolve retrieving user in session
     private UserRoleEnum validateUserAccessToRideAndRetrieveUserRideRole(Ride ride){
 
-        String loggedInUserId = "";
+        VolunteerideUser loggedInUser = userService.getLoggedInUser();
 
-        List<UserRoleEnum> loggedInUserRoles = Arrays.asList(RIDE_SEEKER, VOLUNTEER);
+        String loggedInUserId = loggedInUser.getId();
+
+        List<UserRoleEnum> loggedInUserRoles = loggedInUser.getUserRoles();
 
         UserRoleEnum userRideRole = null;
 

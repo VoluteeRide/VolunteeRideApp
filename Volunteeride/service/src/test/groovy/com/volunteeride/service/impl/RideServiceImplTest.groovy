@@ -1,4 +1,4 @@
-package com.volunteeride.service.impl.ride
+package com.volunteeride.service.impl
 
 import com.volunteeride.common.BaseUnitTest
 import com.volunteeride.dao.CenterDAO
@@ -9,6 +9,7 @@ import com.volunteeride.exception.ValidationException
 import com.volunteeride.model.Location
 import com.volunteeride.model.Ride
 import com.volunteeride.model.RideStatusEnum
+import com.volunteeride.service.impl.RideServiceImpl
 import org.joda.time.DateTime
 
 /**

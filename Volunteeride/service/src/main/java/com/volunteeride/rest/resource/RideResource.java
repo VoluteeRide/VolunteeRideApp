@@ -1,11 +1,10 @@
 package com.volunteeride.rest.resource;
 
 import com.volunteeride.dao.RideDAO;
-import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.model.Ride;
 import com.volunteeride.model.RideOperationEnum;
 import com.volunteeride.rest.resource.beans.RideSearchQueryCriteriaBean;
-import com.volunteeride.service.ride.RideService;
+import com.volunteeride.service.RideService;
 import org.springframework.data.domain.Page;
 
 import javax.inject.Inject;
@@ -23,10 +22,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_EXCP_ARG_KEY;
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
 
 /**
  * This class represents sub-resource for Center Resource.

@@ -1,4 +1,4 @@
-package com.volunteeride.service.ride;
+package com.volunteeride.service;
 
 import com.volunteeride.model.Ride;
 import com.volunteeride.model.RideOperationEnum;
