@@ -26,6 +26,12 @@ public class VolunteerideApplicationConstants {
 
         public static final String RIDE_PICK_UP_TIME_VALIDATION_EXCEPTION_KEY = "ride.pick.up.time.validation.exception";
 
+        public static final String ACCESS_DENIED_EXCEPTION_KEY = "ride.access.denied.exception";
+
+        public static final String INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY = "invalid.user.ride.operation.exception";
+
+        public static final String INVALID_RIDE_STATE_TRANSITION_EXCEPTION_KEY = "invalid.ride.state.transition.exception";
+
     }
 
     public static class ExceptionArgumentConstants {
@@ -42,6 +48,9 @@ public class VolunteerideApplicationConstants {
         //Center Specific
         public static final String CENTER_ID_EXCP_ARG_KEY = "center.id";
         public static final String CENTER_EXCP_ARG_KEY = "center";
+
+        //User Specific
+        public static final String USER_EXCP_ARG_KEY = "user";
 
     }
 

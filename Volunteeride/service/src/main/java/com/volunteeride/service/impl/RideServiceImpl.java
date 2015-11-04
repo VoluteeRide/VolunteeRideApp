@@ -5,6 +5,8 @@ import com.volunteeride.dao.RideDAO;
 import com.volunteeride.dao.UserDAO;
 import com.volunteeride.dto.UserTypeRideStateKey;
 import com.volunteeride.dto.UserTypeRideStateOperationKey;
+import com.volunteeride.exception.AccessDeniedException;
+import com.volunteeride.exception.BaseVolunteerideRuntimeException;
 import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.exception.ValidationException;
 import com.volunteeride.model.Ride;
@@ -30,6 +32,9 @@ import static com.volunteeride.common.constants.VolunteerideApplicationConstants
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_PICKUP_TIME_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_SEEKERS_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.ACCESS_DENIED_EXCEPTION_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.INVALID_RIDE_STATE_TRANSITION_EXCEPTION_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RIDE_PICK_UP_TIME_VALIDATION_EXCEPTION_KEY;
 import static com.volunteeride.model.RideStatusEnum.REQUESTED;
@@ -70,7 +75,6 @@ public class RideServiceImpl implements RideService {
      * @param rideOperation
      * @return
      */
-    //TODO Ayaz resolve retrieving user in session
     //TODO Ayaz Write Test
     @Override
     public Ride executeRideOperation(String centerId, String rideId, RideOperationEnum rideOperation) {
@@ -98,7 +102,8 @@ public class RideServiceImpl implements RideService {
 
 
         if(!validRideOperationsForLoggedInUser.contains(rideOperation)){
-            //TODO AYAZ Throw Invalid operation exception
+            throw new ValidationException(INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY,
+                    new Object[]{rideOperation, rideId, loggedInUser.getUsername(), userRideRole.name()});
         }
 
         RideStatusEnum rideCurrentState = retrievedRide.getStatus();
@@ -107,7 +112,9 @@ public class RideServiceImpl implements RideService {
                 .get(new UserTypeRideStateOperationKey(userRideRole, rideCurrentState, rideOperation));
 
         if(rideTransitionedState == null){
-            //TODO AYAZ Throw Operation cannot be performed exception
+            throw new BaseVolunteerideRuntimeException(INVALID_RIDE_STATE_TRANSITION_EXCEPTION_KEY,
+                    new Object[]{rideId, rideCurrentState.name(), rideOperation.name(), loggedInUser.getUsername(),
+                            userRideRole.name()});
 
         }
 
@@ -149,12 +156,9 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-        //TODO Ayaz Un-comment this when user login functionality fully implemented
         VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
 
         UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(loggedInUser, retrievedRide);
-
-        //UserRoleEnum userRideRole = null;
 
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
                 .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
@@ -218,7 +222,6 @@ public class RideServiceImpl implements RideService {
      * @param ride
      * @return
      */
-    //TODO Ayaz resolve retrieving user in session
     //TODO Ayaz Write Tests
     private UserRoleEnum validateUserAccessToRideAndRetrieveUserRideRole(VolunteerideUser user, Ride ride){
 
@@ -226,7 +229,7 @@ public class RideServiceImpl implements RideService {
 
         List<UserRoleEnum> userRoles = user.getUserRoles();
 
-        UserRoleEnum userRideRole = null;
+        UserRoleEnum userRideRole;
 
         if(ride.getRideSeekerIds().contains(userId) && userRoles.contains(RIDE_SEEKER)){
 
@@ -239,7 +242,8 @@ public class RideServiceImpl implements RideService {
             userRideRole = VOLUNTEER;
 
         } else {
-            //TODO AYAZ Throw Access Denied Forbidden 403 exception
+            throw new AccessDeniedException(ACCESS_DENIED_EXCEPTION_KEY,
+                    new Object[]{user.getUsername(), user.getUserRoles().toString(), ride.getId()});
         }
 
         return userRideRole;
