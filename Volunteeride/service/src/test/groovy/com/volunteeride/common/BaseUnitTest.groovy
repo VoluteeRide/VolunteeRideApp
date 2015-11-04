@@ -29,7 +29,7 @@ class BaseUnitTest extends Specification {
     }
 
     void testForRecordNotFoundException(RecordNotFoundException vExcp, String missingObjName, String missingObjIds){
-        def expectedMsg = missingObjName + " with id/s " + missingObjIds + " cannot be found.";
+        def expectedMsg = missingObjName + " " + missingObjIds + " cannot be found.";
         def expectedErrCode = "VR1-02"
         def expectedCustomCause = null
         def expectedResolution = "Please provide valid " + missingObjName + " information."
