@@ -18,6 +18,7 @@ import com.volunteeride.service.RideService;
 import com.volunteeride.service.UserService;
 import com.volunteeride.util.exception.ValidationExceptionUtil;
 import com.volunteeride.util.statetransition.RideStateTransition;
+import org.apache.commons.collections4.CollectionUtils;
 import org.joda.time.DateTime;
 
 import javax.inject.Inject;
@@ -101,9 +102,9 @@ public class RideServiceImpl implements RideService {
                 .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
 
 
-        if(!validRideOperationsForLoggedInUser.contains(rideOperation)){
+        if(CollectionUtils.isEmpty(validRideOperationsForLoggedInUser) || !validRideOperationsForLoggedInUser.contains(rideOperation)){
             throw new ValidationException(INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY,
-                    new Object[]{rideOperation, rideId, loggedInUser.getUsername(), userRideRole.name()});
+                    new Object[]{rideOperation, rideId, retrievedRide.getStatus(), loggedInUser.getUsername(), userRideRole.name()});
         }
 
         RideStatusEnum rideCurrentState = retrievedRide.getStatus();
