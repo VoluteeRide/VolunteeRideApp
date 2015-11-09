@@ -33,7 +33,8 @@ import static com.volunteeride.common.constants.VolunteerideApplicationConstants
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_PICKUP_TIME_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_SEEKERS_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.ACCESS_DENIED_EXCEPTION_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.API_ACCESS_DENIED_EXCEPTION;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RIDE_ACCESS_DENIED_EXCEPTION;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.INVALID_RIDE_STATE_TRANSITION_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
@@ -63,6 +64,13 @@ public class RideServiceImpl implements RideService {
 
     @Override
     public Ride requestRide(Ride ride) {
+
+        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
+
+        if(!loggedInUser.getUserRoles().contains(UserRoleEnum.RIDE_SEEKER)){
+            throw new AccessDeniedException(API_ACCESS_DENIED_EXCEPTION, new Object[]{loggedInUser.getUsername(),
+            loggedInUser.getUserRoles()});
+        }
 
         this.validateRideForSaveOperation(ride);
         ride.setStatus(REQUESTED);
@@ -243,7 +251,7 @@ public class RideServiceImpl implements RideService {
             userRideRole = VOLUNTEER;
 
         } else {
-            throw new AccessDeniedException(ACCESS_DENIED_EXCEPTION_KEY,
+            throw new AccessDeniedException(RIDE_ACCESS_DENIED_EXCEPTION,
                     new Object[]{user.getUsername(), user.getUserRoles().toString(), ride.getId()});
         }
 

@@ -26,7 +26,9 @@ public class VolunteerideApplicationConstants {
 
         public static final String RIDE_PICK_UP_TIME_VALIDATION_EXCEPTION_KEY = "ride.pick.up.time.validation.exception";
 
-        public static final String ACCESS_DENIED_EXCEPTION_KEY = "ride.access.denied.exception";
+        public static final String RIDE_ACCESS_DENIED_EXCEPTION = "ride.access.denied.exception";
+
+        public static final String API_ACCESS_DENIED_EXCEPTION = "api.access.denied.exception";
 
         public static final String INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY = "invalid.user.ride.operation.exception";
 
