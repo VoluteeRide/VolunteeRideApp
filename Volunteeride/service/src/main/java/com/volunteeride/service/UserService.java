@@ -8,4 +8,6 @@ import com.volunteeride.model.VolunteerideUser;
 public interface UserService {
 
     VolunteerideUser getLoggedInUserDetails();
+
+    VolunteerideUser registerUser(VolunteerideUser user);
 }

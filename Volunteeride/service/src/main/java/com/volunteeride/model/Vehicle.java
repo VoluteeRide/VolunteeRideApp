@@ -6,10 +6,9 @@ package com.volunteeride.model;
 public class Vehicle extends BaseModelObject {
 
     private String make;
-    private int year;
     private String model;
-    private int occupancy;
-    private String type;
+    private int totalRiderCapacity;
+    private VehicleType type;
 
     public String getMake() {
         return make;
@@ -19,13 +18,7 @@ public class Vehicle extends BaseModelObject {
         this.make = make;
     }
 
-    public int getYear() {
-        return year;
-    }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
 
     public String getModel() {
         return model;
@@ -35,19 +28,19 @@ public class Vehicle extends BaseModelObject {
         this.model = model;
     }
 
-    public int getOccupancy() {
-        return occupancy;
+    public int getTotalRiderCapacity() {
+        return totalRiderCapacity;
     }
 
-    public void setOccupancy(int occupancy) {
-        this.occupancy = occupancy;
+    public void setTotalRiderCapacity(int totalRiderCapacity) {
+        this.totalRiderCapacity = totalRiderCapacity;
     }
 
-    public String getType() {
+    public VehicleType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(VehicleType type) {
         this.type = type;
     }
 }

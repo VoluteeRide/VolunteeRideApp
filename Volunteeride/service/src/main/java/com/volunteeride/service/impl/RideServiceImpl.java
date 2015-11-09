@@ -67,6 +67,7 @@ public class RideServiceImpl implements RideService {
 
         VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
 
+        //TODO Ayaz Write tests for modified changes
         if(!loggedInUser.getUserRoles().contains(UserRoleEnum.RIDE_SEEKER)){
             throw new AccessDeniedException(API_ACCESS_DENIED_EXCEPTION, new Object[]{loggedInUser.getUsername(),
             loggedInUser.getUserRoles()});

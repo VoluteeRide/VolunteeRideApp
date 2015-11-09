@@ -53,6 +53,19 @@ public class VolunteerideApplicationConstants {
 
         //User Specific
         public static final String USER_EXCP_ARG_KEY = "user";
+        public static final String USER_NAME_EXCP_ARG_KEY = "user.username";
+        public static final String USER_PASSWORD_EXCP_ARG_KEY = "user.password";
+        public static final String USER_FIRST_NAME_EXCP_ARG_KEY = "user.first.name";
+        public static final String USER_LAST_NAME_EXCP_ARG_KEY = "user.last.name";
+        public static final String USER_PHONE_EXCP_ARG_KEY = "user.phone";
+        public static final String USER_ROLES_EXCP_ARG_KEY = "user.roles";
+        public static final String USER_VEHICLES_EXCP_ARG_KEY = "user.vehicles";
+        public static final String USER_VEHICLE_MAKE_EXCP_ARG_KEY = "user.vehicle.make";
+        public static final String USER_VEHICLE_MODEL_EXCP_ARG_KEY = "user.vehicle.model";
+        public static final String USER_VEHICLE_RIDER_CAPACITY_EXCP_ARG_KEY = "user.vehicle.rider.capacity";
+        public static final String USER_VEHICLE_TYPE_EXCP_ARG_KEY = "user.vehicle.type";
+
+
 
     }
 
