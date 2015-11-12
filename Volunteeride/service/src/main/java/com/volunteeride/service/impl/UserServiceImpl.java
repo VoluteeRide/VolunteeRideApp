@@ -1,6 +1,5 @@
 package com.volunteeride.service.impl;
 
-import com.volunteeride.common.constants.VolunteerideApplicationConstants;
 import com.volunteeride.dao.UserDAO;
 import com.volunteeride.exception.RecordNotFoundException;
 import com.volunteeride.model.UserRoleEnum;
@@ -14,6 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.CENTER_EXCP_ARG_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_EMAIL_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_FIRST_NAME_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_LAST_NAME_EXCP_ARG_KEY;
@@ -74,14 +75,14 @@ public class UserServiceImpl implements UserService {
         ValidationExceptionUtil.validateForEmptyOrNull(user.getLastName(), new Object[]{USER_LAST_NAME_EXCP_ARG_KEY});
         ValidationExceptionUtil.validateForEmptyOrNull(user.getPhone(), new Object[]{USER_PHONE_EXCP_ARG_KEY});
         ValidationExceptionUtil.validateForEmptyOrNull(user.getUserRoles(), new Object[]{USER_ROLES_EXCP_ARG_KEY});
+        ValidationExceptionUtil.validateForEmptyOrNull(user.getEmail(), new Object[]{USER_EMAIL_EXCP_ARG_KEY});
+        ValidationExceptionUtil.validateForEmptyOrNull(user.getCenterId(), new Object[]{CENTER_EXCP_ARG_KEY});
 
         if(user.getUserRoles().contains(UserRoleEnum.VOLUNTEER)){
             ValidationExceptionUtil.validateForEmptyOrNull(user.getOwnedVehicles(),
                     new Object[]{USER_VEHICLES_EXCP_ARG_KEY});
 
-            for(Vehicle userVehicle : user.getOwnedVehicles()){
-                this.validateVolunteerVehicle(userVehicle);
-            }
+            user.getOwnedVehicles().forEach(this::validateVolunteerVehicle);
         }
     }
 

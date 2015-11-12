@@ -12,8 +12,17 @@ import java.util.List;
 @Document
 public class Center extends BaseModelObject {
 
+    private String name;
     private Location location;
     private List<Location> pickUpLocations;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Location getLocation() {
         return location;

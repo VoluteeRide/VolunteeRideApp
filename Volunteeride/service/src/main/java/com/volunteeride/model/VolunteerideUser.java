@@ -1,6 +1,6 @@
 package com.volunteeride.model;
 
-import org.bson.types.ObjectId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,7 +24,7 @@ public class VolunteerideUser extends BaseModelObject{
     private String email;
     private String phone;
     private List<Vehicle> ownedVehicles;
-    private ObjectId centerId;
+    private String centerId;
     
     private List<UserRoleEnum> userRoles;
 
@@ -33,6 +33,7 @@ public class VolunteerideUser extends BaseModelObject{
      * Reference https://github.com/jthoms/spring-security-mongodb/blob/master/src/main/java/com/sustia/domain/UserAccount.java
      * @return Comma Seperated String of User Roles
      */
+    @JsonIgnore
     public String getCommaSeperatedRoles() {
         StringBuilder sb = new StringBuilder();
         for (Iterator<UserRoleEnum> iter = this.userRoles.iterator(); iter.hasNext(); )
@@ -101,11 +102,11 @@ public class VolunteerideUser extends BaseModelObject{
         this.ownedVehicles = ownedVehicles;
     }
 
-    public ObjectId getCenterId() {
+    public String getCenterId() {
         return centerId;
     }
 
-    public void setCenterId(ObjectId centerId) {
+    public void setCenterId(String centerId) {
         this.centerId = centerId;
     }
 

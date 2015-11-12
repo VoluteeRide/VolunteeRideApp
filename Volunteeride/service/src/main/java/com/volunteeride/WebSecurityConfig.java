@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/volunteeride/centers").permitAll()
                 .antMatchers("/volunteeride/**").hasAnyAuthority("VOLUNTEER", "RIDE_SEEKER")
                 .anyRequest().authenticated()
                 .and()

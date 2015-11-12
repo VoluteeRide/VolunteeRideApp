@@ -3,7 +3,7 @@ package com.volunteeride.model;
 /**
  * Created by ayazlakdawala on 11/8/15.
  */
-public enum VehicleType {
+public enum VehicleTypeEnum {
     SEDAN,
     SUV,
     VAN,

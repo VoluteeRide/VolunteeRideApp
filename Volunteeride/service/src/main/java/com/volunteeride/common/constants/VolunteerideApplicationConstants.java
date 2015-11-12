@@ -64,8 +64,7 @@ public class VolunteerideApplicationConstants {
         public static final String USER_VEHICLE_MODEL_EXCP_ARG_KEY = "user.vehicle.model";
         public static final String USER_VEHICLE_RIDER_CAPACITY_EXCP_ARG_KEY = "user.vehicle.rider.capacity";
         public static final String USER_VEHICLE_TYPE_EXCP_ARG_KEY = "user.vehicle.type";
-
-
+        public static final String USER_EMAIL_EXCP_ARG_KEY = "user.email";
 
     }
 

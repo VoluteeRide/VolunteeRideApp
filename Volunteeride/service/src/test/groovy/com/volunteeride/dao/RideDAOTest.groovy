@@ -44,6 +44,7 @@ class RideDAOTest extends BaseDAOTest {
 
         //Insert Center
         center = new Center()
+        center.name = "Washington DC J.K"
 
         def centerLoc = new Location()
         centerLoc.city = "Falls Church"
@@ -63,6 +64,8 @@ class RideDAOTest extends BaseDAOTest {
         rideseeker.phone = "123-456-8792"
         rideseeker.username = "rideusr"
         rideseeker.password = passwordEncoder.encode("password");
+        rideseeker.email = 'rideusr@gmail.com'
+        rideseeker.centerId = center.id
 
         def rideSeekerUserRoles = new ArrayList<UserRoleEnum>()
         rideSeekerUserRoles << UserRoleEnum.RIDE_SEEKER
@@ -77,10 +80,24 @@ class RideDAOTest extends BaseDAOTest {
         volunteer.phone = "123-456-8792"
         volunteer.username = "volusr"
         volunteer.password = passwordEncoder.encode("password");
+        volunteer.email = 'volusr@gmail.com'
+        volunteer.centerId = center.id
 
         def volunteerUserRoles = new ArrayList<UserRoleEnum>()
         volunteerUserRoles << UserRoleEnum.VOLUNTEER
         volunteer.userRoles = volunteerUserRoles
+
+        def ownedVehicles = new ArrayList<Vehicle>()
+
+        def ownedVehicle = new Vehicle()
+        ownedVehicle.make = "Toyota"
+        ownedVehicle.model = "Camry"
+        ownedVehicle.color = "Black"
+        ownedVehicle.totalRiderCapacity = 4
+        ownedVehicle.type = VehicleTypeEnum.SEDAN
+
+        ownedVehicles << ownedVehicle
+        volunteer.ownedVehicles = ownedVehicles
 
         userDAO.save(volunteer)
     }

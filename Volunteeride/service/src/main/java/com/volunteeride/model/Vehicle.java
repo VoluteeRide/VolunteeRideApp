@@ -3,12 +3,13 @@ package com.volunteeride.model;
 /**
  * Created by ayazlakdawala on 9/7/15.
  */
-public class Vehicle extends BaseModelObject {
+public class Vehicle {
 
     private String make;
     private String model;
     private int totalRiderCapacity;
-    private VehicleType type;
+    private VehicleTypeEnum type;
+    private String color;
 
     public String getMake() {
         return make;
@@ -17,8 +18,6 @@ public class Vehicle extends BaseModelObject {
     public void setMake(String make) {
         this.make = make;
     }
-
-
 
     public String getModel() {
         return model;
@@ -36,11 +35,19 @@ public class Vehicle extends BaseModelObject {
         this.totalRiderCapacity = totalRiderCapacity;
     }
 
-    public VehicleType getType() {
+    public VehicleTypeEnum getType() {
         return type;
     }
 
-    public void setType(VehicleType type) {
+    public void setType(VehicleTypeEnum type) {
         this.type = type;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
