@@ -34,6 +34,8 @@ public class VolunteerideApplicationConstants {
 
         public static final String INVALID_RIDE_STATE_TRANSITION_EXCEPTION_KEY = "invalid.ride.state.transition.exception";
 
+        public static final String USERNAME_EXISTS_EXCEPTION_KEY = "username.exists.exception";
+
     }
 
     public static class ExceptionArgumentConstants {

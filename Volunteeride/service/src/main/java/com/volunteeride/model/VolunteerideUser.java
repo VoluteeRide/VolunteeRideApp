@@ -1,6 +1,7 @@
 package com.volunteeride.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,6 +19,7 @@ public class VolunteerideUser extends BaseModelObject{
     @Indexed(unique = true)
     private String username;
 
+    @JsonIgnore
     private String password;
     private String firstName;
     private String lastName;
@@ -54,10 +56,12 @@ public class VolunteerideUser extends BaseModelObject{
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }

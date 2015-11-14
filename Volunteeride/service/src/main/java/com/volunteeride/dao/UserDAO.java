@@ -9,4 +9,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface UserDAO extends MongoRepository<VolunteerideUser, String> {
 
     VolunteerideUser findByUsername(String username);
+
+    Long countByUsername(String username);
 }
