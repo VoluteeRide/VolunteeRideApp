@@ -51,11 +51,12 @@ public class UserResource {
         return Response.created(uri).entity(newUser).build();
     }
 
-    @GET
-    //TODO Ayaz Delete this api if not required
-    public Response retrieveUsers(){
-        List<VolunteerideUser> users = userDAO.findAll();
-        return Response.ok(users).build();
+    @Path("/login")
+    @POST
+    public Response getLoggedInUserDetails() {
+
+        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
+        return Response.ok(loggedInUser).build();
     }
 
     @Path("/{user_id}")

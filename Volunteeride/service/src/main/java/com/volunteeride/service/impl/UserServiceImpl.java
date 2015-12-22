@@ -1,8 +1,7 @@
 package com.volunteeride.service.impl;
 
-import com.volunteeride.common.constants.VolunteerideApplicationConstants;
 import com.volunteeride.dao.UserDAO;
-import com.volunteeride.exception.RecordNotFoundException;
+import com.volunteeride.exception.BaseVolunteerideRuntimeException;
 import com.volunteeride.exception.ValidationException;
 import com.volunteeride.model.UserRoleEnum;
 import com.volunteeride.model.Vehicle;
@@ -31,7 +30,7 @@ import static com.volunteeride.common.constants.VolunteerideApplicationConstants
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_VEHICLE_RIDER_CAPACITY_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_VEHICLE_TYPE_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.LOGGED_IN_USER_DATA_NOT_FOUND_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.USERNAME_EXISTS_EXCEPTION_KEY;
 
 /**
@@ -57,8 +56,7 @@ public class UserServiceImpl implements UserService {
         if(principal != null){
             loggedInUser = userDAO.findByUsername(principal.getUsername());
         } else{
-            throw new RecordNotFoundException(RECORD_NOT_FOUND_EXCEPTION_KEY,
-                    new Object[]{exceptionArgumentBundle.getString(USER_EXCP_ARG_KEY), principal.getUsername()});
+            throw new BaseVolunteerideRuntimeException(LOGGED_IN_USER_DATA_NOT_FOUND_EXCEPTION_KEY);
         }
 
         return loggedInUser;

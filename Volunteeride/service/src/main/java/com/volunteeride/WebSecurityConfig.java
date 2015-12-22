@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/volunteeride/**").hasAnyAuthority("VOLUNTEER", "RIDE_SEEKER")
                 .anyRequest().authenticated()
                 .and()
-                .logout().logoutUrl("/volunteeride/logout")
+                .logout().logoutUrl("/volunteeride/users/logout")
                 .logoutSuccessHandler(new CustomHttpStatusReturningLogoutSuccessHandler())
                 .and()
                 .httpBasic()

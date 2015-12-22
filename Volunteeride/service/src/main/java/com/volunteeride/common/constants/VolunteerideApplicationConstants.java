@@ -36,6 +36,8 @@ public class VolunteerideApplicationConstants {
 
         public static final String USERNAME_EXISTS_EXCEPTION_KEY = "username.exists.exception";
 
+        public static final String LOGGED_IN_USER_DATA_NOT_FOUND_EXCEPTION_KEY = "logged.in.user.data.not.found.exception";
+
     }
 
     public static class ExceptionArgumentConstants {
