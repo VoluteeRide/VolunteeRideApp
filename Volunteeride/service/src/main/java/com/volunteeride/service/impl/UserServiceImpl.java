@@ -93,7 +93,9 @@ public class UserServiceImpl implements UserService {
             ValidationExceptionUtil.validateForEmptyOrNull(user.getOwnedVehicles(),
                     new Object[]{USER_VEHICLES_EXCP_ARG_KEY});
 
-            user.getOwnedVehicles().forEach(this::validateVolunteerVehicle);
+            for(Vehicle vehicle : user.getOwnedVehicles()){
+                this.validateVolunteerVehicle(vehicle);
+            }
         }
     }
 
