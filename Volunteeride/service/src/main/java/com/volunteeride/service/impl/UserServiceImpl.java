@@ -29,7 +29,6 @@ import static com.volunteeride.common.constants.VolunteerideApplicationConstants
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_VEHICLE_MODEL_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_VEHICLE_RIDER_CAPACITY_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.USER_VEHICLE_TYPE_EXCP_ARG_KEY;
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.LOGGED_IN_USER_DATA_NOT_FOUND_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.USERNAME_EXISTS_EXCEPTION_KEY;
 
@@ -93,7 +92,9 @@ public class UserServiceImpl implements UserService {
             ValidationExceptionUtil.validateForEmptyOrNull(user.getOwnedVehicles(),
                     new Object[]{USER_VEHICLES_EXCP_ARG_KEY});
 
-            user.getOwnedVehicles().forEach(this::validateVolunteerVehicle);
+            for(Vehicle vehicle : user.getOwnedVehicles()){
+                this.validateVolunteerVehicle(vehicle);
+            }
         }
     }
 
