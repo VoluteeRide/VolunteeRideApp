@@ -5,7 +5,6 @@ import com.volunteeride.model.Ride;
 import com.volunteeride.model.RideOperationEnum;
 import com.volunteeride.rest.resource.beans.RideSearchQueryCriteriaBean;
 import com.volunteeride.service.RideService;
-import org.springframework.data.domain.Page;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 
 /**
  * This class represents sub-resource for Center Resource.
@@ -43,7 +43,7 @@ public class RideResource {
     @GET
     public Response searchRides(@BeanParam RideSearchQueryCriteriaBean rideSearchCriteria) {
 
-        Page<Ride> searchedRides = rideDAO.searchRides(rideSearchCriteria);
+        List<Ride> searchedRides = rideService.searchRides(rideSearchCriteria);
         return Response.ok(searchedRides).build();
     }
 

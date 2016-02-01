@@ -17,6 +17,8 @@ public class RideSearchQueryCriteriaBean extends PaginationAndSortingCriteriaBea
 
     private @QueryParam("status") String status;
 
+    private @QueryParam("volunteer_id") String volunteerId;
+
     public String getCenterId() {
         return centerId;
     }
@@ -40,4 +42,13 @@ public class RideSearchQueryCriteriaBean extends PaginationAndSortingCriteriaBea
     public void setRideSeekerIds(List<String> rideSeekerIds) {
         this.rideSeekerIds = rideSeekerIds;
     }
+
+    public String getVolunteerId() {
+        return volunteerId;
+    }
+
+    public void setVolunteerId(String volunteerId) {
+        this.volunteerId = volunteerId;
+    }
+
 }

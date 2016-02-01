@@ -2,6 +2,9 @@ package com.volunteeride.service;
 
 import com.volunteeride.model.Ride;
 import com.volunteeride.model.RideOperationEnum;
+import com.volunteeride.rest.resource.beans.RideSearchQueryCriteriaBean;
+
+import java.util.List;
 
 /**
  * Created by ayazlakdawala on 8/31/15.
@@ -32,4 +35,12 @@ public interface RideService {
      * @return
      */
     Ride retrieveRideDetails(String centerId, String rideId);
+
+    /**
+     * Api to search rides
+     *
+     * @param rideSearchCriteria
+     * @return
+     */
+    List<Ride> searchRides(RideSearchQueryCriteriaBean rideSearchCriteria);
 }

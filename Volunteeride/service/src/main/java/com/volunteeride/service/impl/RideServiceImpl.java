@@ -14,6 +14,7 @@ import com.volunteeride.model.RideOperationEnum;
 import com.volunteeride.model.RideStatusEnum;
 import com.volunteeride.model.UserRoleEnum;
 import com.volunteeride.model.VolunteerideUser;
+import com.volunteeride.rest.resource.beans.RideSearchQueryCriteriaBean;
 import com.volunteeride.service.RideService;
 import com.volunteeride.service.UserService;
 import com.volunteeride.util.exception.ValidationExceptionUtil;
@@ -23,6 +24,7 @@ import org.joda.time.DateTime;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.CENTER_EXCP_ARG_KEY;
@@ -34,10 +36,10 @@ import static com.volunteeride.common.constants.VolunteerideApplicationConstants
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.RIDE_SEEKERS_EXCP_ARG_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionArgumentConstants.exceptionArgumentBundle;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.API_ACCESS_DENIED_EXCEPTION;
-import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RIDE_ACCESS_DENIED_EXCEPTION;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.INVALID_RIDE_STATE_TRANSITION_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.INVALID_USER_RIDE_OPERATION_EXCEPTION_KEY;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RECORD_NOT_FOUND_EXCEPTION_KEY;
+import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RIDE_ACCESS_DENIED_EXCEPTION;
 import static com.volunteeride.common.constants.VolunteerideApplicationConstants.ExceptionResourceConstants.RIDE_PICK_UP_TIME_VALIDATION_EXCEPTION_KEY;
 import static com.volunteeride.model.RideStatusEnum.REQUESTED;
 import static com.volunteeride.model.UserRoleEnum.RIDE_SEEKER;
@@ -96,9 +98,9 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
+        UserRoleEnum userRideRole = this.validateLoggedInUserAccessToRide(retrievedRide);
 
-        UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(loggedInUser, retrievedRide);
+        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
 
         //if the ride is in REQUESTED state and the loggend in user trying to perform an operation on the ride is
         // a volunteer, set logged in user as a volunteer for the ride.
@@ -166,9 +168,7 @@ public class RideServiceImpl implements RideService {
                     new Object[]{exceptionArgumentBundle.getString(RIDE_EXCP_ARG_KEY), rideId});
         }
 
-        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
-
-        UserRoleEnum userRideRole = this.validateUserAccessToRideAndRetrieveUserRideRole(loggedInUser, retrievedRide);
+        UserRoleEnum userRideRole = this.validateLoggedInUserAccessToRide(retrievedRide);
 
         List<RideOperationEnum> nextRideOperations = userRideOperationsMap
                 .get(new UserTypeRideStateKey(userRideRole, retrievedRide.getStatus()));
@@ -176,6 +176,36 @@ public class RideServiceImpl implements RideService {
         retrievedRide.setNextRideUserOperations(nextRideOperations);
 
         return retrievedRide;
+    }
+
+    @Override
+    public List<Ride> searchRides(RideSearchQueryCriteriaBean rideSearchCriteria) {
+
+        List<Ride> retrievedRides = rideDAO.searchRides(rideSearchCriteria);
+
+        if(CollectionUtils.isNotEmpty(retrievedRides)){
+
+            VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
+
+            Iterator iterator = retrievedRides.listIterator();
+
+            while(iterator.hasNext()){
+
+                Ride ride = (Ride) iterator.next();
+                UserRoleEnum userRideRole = this.retrieveUserRideRole(loggedInUser, ride);
+
+                if(userRideRole != null){
+                    List<RideOperationEnum> nextRideOperations = userRideOperationsMap
+                            .get(new UserTypeRideStateKey(userRideRole, ride.getStatus()));
+
+                    ride.setNextRideUserOperations(nextRideOperations);
+                }else{
+                    iterator.remove();
+                }
+            }
+        }
+
+        return retrievedRides;
     }
 
     private void validateRideForSaveOperation(Ride ride) {
@@ -233,13 +263,13 @@ public class RideServiceImpl implements RideService {
      * @return
      */
     //TODO Ayaz Write Tests
-    private UserRoleEnum validateUserAccessToRideAndRetrieveUserRideRole(VolunteerideUser user, Ride ride){
+    private UserRoleEnum retrieveUserRideRole(VolunteerideUser user, Ride ride){
 
         String userId = user.getId();
 
         List<UserRoleEnum> userRoles = user.getUserRoles();
 
-        UserRoleEnum userRideRole;
+        UserRoleEnum userRideRole = null;
 
         if(ride.getRideSeekerIds().contains(userId) && userRoles.contains(RIDE_SEEKER)){
 
@@ -251,14 +281,22 @@ public class RideServiceImpl implements RideService {
 
             userRideRole = VOLUNTEER;
 
-        } else {
+        }
+        return userRideRole;
+    }
+
+    private UserRoleEnum validateLoggedInUserAccessToRide(Ride ride){
+
+        VolunteerideUser loggedInUser = userService.getLoggedInUserDetails();
+
+        UserRoleEnum userRideRole = this.retrieveUserRideRole(loggedInUser, ride);
+
+        if(userRideRole == null){
             throw new AccessDeniedException(RIDE_ACCESS_DENIED_EXCEPTION,
-                    new Object[]{user.getUsername(), user.getUserRoles().toString(), ride.getId()});
+                    new Object[]{loggedInUser.getUsername(), loggedInUser.getUserRoles().toString(), loggedInUser.getId()});
         }
 
         return userRideRole;
-
     }
-
 
 }
