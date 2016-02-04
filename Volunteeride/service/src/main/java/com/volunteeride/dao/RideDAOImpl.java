@@ -37,8 +37,8 @@ public class RideDAOImpl implements RideCustomDAO {
             searchQuery.addCriteria(Criteria.where("volunteerId").is(rideSearchCriteria.getVolunteerId()));
         }
 
-        if(rideSearchCriteria.getStatus() != null){
-            searchQuery.addCriteria(Criteria.where("status").is(rideSearchCriteria.getStatus()));
+        if(CollectionUtils.isNotEmpty(rideSearchCriteria.getStatus())){
+            searchQuery.addCriteria(Criteria.where("status").in(rideSearchCriteria.getStatus()));
         }
 
         return mongoTemplate.find(searchQuery, Ride.class);

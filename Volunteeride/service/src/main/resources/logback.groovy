@@ -17,11 +17,7 @@
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.core.ConsoleAppender
 import ch.qos.logback.core.FileAppender
-import ch.qos.logback.core.rolling.FixedWindowRollingPolicy
-import ch.qos.logback.core.rolling.RollingFileAppender
-import ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP
-import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
+import ch.qos.logback.core.rolling.*
 
 import static ch.qos.logback.classic.Level.DEBUG
 import static ch.qos.logback.classic.Level.ERROR
@@ -84,4 +80,4 @@ appender("ROLLING_FILE_FIXED_WINDOW", RollingFileAppender) {
 //logger takes logger name,log level, appender name and additivity as parameters
 logger("com.volunteeride", ERROR, ["ROLLING_FILE_FIXED_WINDOW"], false)
 
-root(ERROR, ["STDOUT", "ROLLING_FILE_FIXED_WINDOW"])
+root(DEBUG, ["STDOUT", "ROLLING_FILE_FIXED_WINDOW"])

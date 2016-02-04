@@ -15,7 +15,7 @@ public class RideSearchQueryCriteriaBean extends PaginationAndSortingCriteriaBea
 
     private @QueryParam("rideseeker_id") List<String> rideSeekerIds;
 
-    private @QueryParam("status") String status;
+    private @QueryParam("status") List<String> status;
 
     private @QueryParam("volunteer_id") String volunteerId;
 
@@ -27,11 +27,11 @@ public class RideSearchQueryCriteriaBean extends PaginationAndSortingCriteriaBea
         this.centerId = centerId;
     }
 
-    public String getStatus() {
+    public List<String> getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(List<String> status) {
         this.status = status;
     }
 
